@@ -1,0 +1,6 @@
+*~
+*.aux
+*.log
+*.pdf
+*.html
+ignore/

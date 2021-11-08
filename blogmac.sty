@@ -1,0 +1,48 @@
+\usepackage{amsthm}
+
+\newcounter{chunk@ctr}
+\swapnumbers
+\newtheorem{theorem}[chunk@ctr]{Theorem}
+\newtheorem{proposition}[chunk@ctr]{Proposition}
+\newtheorem{corollary}[chunk@ctr]{Corollary}
+\newtheorem{lemma}[chunk@ctr]{Lemma}
+\newtheorem{conjecture}[chunk@ctr]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}[chunk@ctr]{Definition}
+\newtheorem{example}[chunk@ctr]{Example}
+% \newtheorem{axiom}{Axiom}
+\newtheorem{exercise}[chunk@ctr]{Exercise}
+\newtheorem{problem}[chunk@ctr]{Problem}
+\newtheorem{question}[chunk@ctr]{Question}
+
+\theoremstyle{remark}
+\newtheorem{remark}[chunk@ctr]{Remark}
+\newtheorem{claim}[chunk@ctr]{Claim}
+
+\newcommand\define[1]{\textbf{``#1''}}
+
+
+\@ifundefined{@addpunct}{
+  \def\@addpunct#1{\ifnum\spacefactor>\@m \else#1\fi}
+  }{}
+
+
+\newcommand\M{\medbreak\noindent%
+  \refstepcounter{chunk@ctr}%
+  \textbf{\thechunk@ctr\@addpunct{.}}\quad\ignorespaces}
+
+% deprecated macro:
+% \newcommand\N[1]{\M\textbf{#1\@addpunct{.}}\quad\ignorespaces}
+
+% superior implementation:
+
+\def\N{\@ifstar
+        \NStar%
+        \NNoStar%
+}
+\def\NStar#1{\medbreak\noindent\textbf{#1\@addpunct{.}\quad}\ignorespaces}
+\def\NNoStar#1{\M\textbf{#1\@addpunct{.}\quad}\ignorespaces}
+
+% permits writing \N*{Un-numbered chunk} for a chunk
+% without a numeric label!
