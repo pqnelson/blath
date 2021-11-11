@@ -55,12 +55,14 @@ beginproof = '<section class="proof">\n<em>Proof:</em> '
 thm_style_start = dict(theorem='<em>', lemma='<em>', proposition='<em>', corollary='<em>', conjecture='<em>')
 thm_style_end = dict(theorem='</em>', lemma='</em>', proposition='</em>', corollary='</em>', conjecture='</em>')
 
-
+solid_halmos_tombstone = '&#8718;' # according to Wikipedia, at least...
+# alternatives: '&#x025AE;' or '&marker;'
+hollow_halmos_tombstone = '&#x25AF;' # just a guess
 
 def endproof(html):
-    if html:
-        return r'<img src="http://l.wordpress.com/latex.php?latex=\Box&fg=000000">\n</p>\n</section>'
-    return '$latex \Box&fg=000000$\n</p>\n</section>\n'
+    # if html:
+    #     return r'<img src="http://l.wordpress.com/latex.php?latex=\Box&fg=000000">\n</p>\n</section>'
+    return ' '+solid_halmos_tombstone+'\n</p>\n</section>\n'
 
 #section = '\n<p>\n<b>_SecNumb_. _SecName_ </b>\n<p>\n'
 #sectionstar = '\n<p>\n<b> _SecName_ </b>\n<p>\n'
