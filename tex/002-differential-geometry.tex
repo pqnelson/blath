@@ -1,0 +1,207 @@
+\section{Manifolds}
+\subsection{Charts}
+\begin{definition}
+  Let $X\subset M$ be some set. An $n$-dimensional \define{Chart} consists of
+  \begin{enumerate}
+  \item an open subset $U\subset\RR^{n}$
+  \item a map $\varphi\colon U\to X$
+  \end{enumerate}
+  such that $\varphi$ is an appropriate isomorphism (for topological
+  manifolds, it is a homeomorphism; smooth manifolds require a
+  diffeomorphism; and so on).
+\end{definition}
+
+\begin{remark}
+  We call $\varphi\colon U\to X$ a \define{Parametrization} of $X$, and
+  $\varphi^{-1}\colon X\to U$ a \define{Local System of Coordinates}.
+\end{remark}
+
+\begin{remark}
+  Since $\varphi$ is an isomorphism, the literature mixes up using $U\to X$
+  and $X\to U$. Milner uses $\varphi\colon U\to X$, but John Lee uses
+  the opposite convention.
+\end{remark}
+
+\begin{definition}
+  Let $(U,\varphi)$, $(V,\psi)$ be two charts. We say they are
+  \define{Compatible} if
+  \begin{enumerate}
+  \item the set $(\varphi^{-1}\circ\psi)(V)\subset U$ is an open set;
+  \item the set $(\psi^{-1}\circ\varphi)(U)\subset V$ is an open set;
+  \item the map $\psi^{-1}\circ\varphi\colon\varphi^{-1}(\psi(V))\to\psi^{-1}(\varphi(U))$
+    is smooth; and
+  \item the map $\varphi^{-1}\circ\psi\colon\psi^{-1}(\varphi(U))\to\varphi^{-1}(\psi(V))$
+    is smooth.
+  \end{enumerate}
+  In particular, the charts are compatible if
+  $\varphi(U)\cap\psi(V)=\emptyset$ is disjoint.
+\end{definition}
+
+\begin{center}
+\includegraphics{img/compatible-charts.0}
+\end{center}
+
+\begin{remark}
+  We refer to the maps $\psi^{-1}\circ\varphi$ as \define{Transition Functions}.
+  The condition of smooth is $C^{\infty}(\RR^{n})$, but different
+  manifolds have different conditions (we could have $C^{k}$ charts, or
+  $C^{0}$ charts, or analytic $C^{\omega}$ charts, or\dots).
+
+  In the older literature (e.g., Kobayashi and Nomizu's
+  \emph{Foundations of Differential Geometry}), the collection of
+  transition functions form a gadget called a \define{Pseudogroup}.
+\end{remark}
+
+\begin{remark}
+  We abuse notation, and could be more explicit by writing
+  \begin{equation}
+    \psi^{-1}\circ\varphi\colon\varphi^{-1}(\varphi(U)\cap\psi(V))\to\psi^{-1}(\varphi(U)\cap\psi(V))
+  \end{equation}
+\end{remark}
+
+\begin{exercise}
+  Prove chart compatibility is an equivalence relation.
+\end{exercise}
+
+\subsection{Atlases}
+
+\begin{definition}
+  Let $M$ be a set. An ($n$-dimensional) \define{Atlas} consists of a
+  collection $\{(U_{\alpha},\varphi_{\alpha})\mid\alpha\in A\}$ of
+  $n$-dimensional charts on $M$ such that
+  \begin{enumerate}
+  \item Covers $M$: $\bigcup_{\alpha\in A}\varphi_{\alpha}(U_{\alpha})=M$
+  \item Pairwise compatible: for any $\alpha$, $\beta\in A$ the charts
+    $(U_{\alpha},\varphi_{\alpha})$ and $(U_{\beta},\varphi_{\beta})$
+    are compatible.
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}
+  Two $n$-dimensional atlases on $M$, $\mathcal{A}$ and $\mathcal{B}$,
+  are called \define{Equivalent} if their union $\mathcal{A}\cup\mathcal{B}$
+  is also an atlas. That is to say, if any chart of $\mathcal{A}$ is
+  compatible with any chart of $\mathcal{B}$.
+\end{definition}
+
+\begin{remark}
+  Remember: charts are \emph{compatible}, but atlases are \emph{equivalent}.
+\end{remark}
+
+\begin{lemma}\label{lemma:002-diff-geom:transitivity-of-atlas-equivalence}
+  Let $\mathcal{B}$ be an atlas, let $(U,\varphi)$ and $(V,\psi)$ be two
+  charts not contained in $\mathcal{B}$.
+  If $(U,\varphi)$ is compatible with every chart of $\mathcal{B}$, and
+  if $(V,\psi)$ is compatible with every chart of $\mathcal{B}$,
+  then $(U,\varphi)$ is compatible with $(V,\psi)$.
+\end{lemma}
+
+\begin{theorem}
+  Equivalence of atlases is an equivalence relation.
+\end{theorem}
+
+\begin{proof}
+  Let $\mathcal{A}$, $\mathcal{B}$, $\mathcal{C}$ be arbitrary atlases on $M$.
+  \begin{enumerate}
+  \item Reflexivity: $\mathcal{A}$ is equivalent to itself, since by
+    definition any pair of charts in $\mathcal{A}$ are compatible.
+  \item Symmetry: let $\mathcal{A}$ and $\mathcal{B}$ be equivalent
+    atlases, then $\mathcal{B}$ and $\mathcal{A}$ are equivalent atlases.
+  \item Transitivity: this is the nontrivial part. Let $\mathcal{A}$ and
+    $\mathcal{B}$ be equivalent atlases, and $\mathcal{B}$ be equivalent
+    to $\mathcal{C}$. Then transitivity follows by considering arbitrary charts
+    $(U,\varphi)\in\mathcal{A}$ and $(V,\psi)\in\mathcal{C}$, then
+    applying Lemma~\ref{lemma:002-diff-geom:transitivity-of-atlas-equivalence}.
+  \end{enumerate}
+  Thus ``equivalence of atlases'' forms an equivalence relation.
+\end{proof}
+
+\begin{proposition}
+The collection of atlases on a given set $M$ is a \emph{set}, not a
+proper class.
+\end{proposition}
+\begin{proof}
+  The class of atlases is a subcollection of
+  \begin{equation}
+    \mathcal{X}=\powerset\left(\bigcup_{U\in\powerset(\RR^{n})}\hom(U,M)\right)
+  \end{equation}
+  where $\hom(U,\RR^{n})$ is the collection of (appropriately smooth, or
+  continuous, or holomorphic, or\dots) functions from $U$ to $M$. By ZF
+  axioms, $\mathcal{X}$ is a set.
+\end{proof}
+
+\subsection{Manifolds}
+
+\begin{definition}
+  Let $M$ be a set, let $\mathcal{A}$ be an $n$-dimensional atlas on
+  $M$.
+  We call a subset $B\subset M$ \define{Open} (with respect to
+  $\mathcal{A}$) if for any chart $(U,\varphi)\in\mathcal{A}$ the
+  preimage $\varphi^{-1}(B)$ is open (in $U$, and thus open in $\RR^{n}$).
+  In particular, the images $\varphi(U)$ are open.
+\end{definition}
+
+\begin{theorem}
+  If two atlases $\mathcal{A}_{1}$ and $\mathcal{A}_{2}$ on $M$ are equivalent,
+  then a subset $B\subset M$ is open with respect to $\mathcal{A}_{1}$
+  if and only it is open with respect $\mathcal{A}_{2}$.
+\end{theorem}
+
+\begin{remark}
+  This theorem shows an equivalence class of atlases on $M$ makes $M$ a
+  topological space. We may therefore meaningfully speak about
+  topological properties of $M$ (like compactness, connectedness, and so
+  forth). 
+\end{remark}
+
+\begin{corollary}
+  Let $\mathcal{A}$ be an $n$-dimensional atlas for $M$.
+  Then the collection of open sets with respect to $\mathcal{A}$ form a
+  topology on $M$.
+\end{corollary}
+
+\begin{definition}
+  Let $M$ be a fixed set. A \define{$n$-Dimensional Differential Structure}
+  (or \emph{$n$-Dimensional Smooth Structure})
+  on $M$ consists of an equivalence class $\mathfrak{D}$ of
+  $n$-dimensional atlases on $M$ such that
+  \begin{enumerate}
+  \item Secound-Countable: $\mathfrak{D}$ contains an at most countable atlas;
+  \item Hausdorff: for any distinct $p,q\in M$, there exists disjoint
+    open neighborhoods $U,V\subset M$ such that $p\in U$ and $q\in V$.
+  \end{enumerate}
+\end{definition}
+
+\begin{remark}[Smooth Structure using a Maximal Atlas]
+  Equivalence classes are awkward to work with, and so it is more
+  popular to consider \emph{maximal atlases}. An atlas $\mathcal{A}$ is
+  maximal if it contains all charts compatible with every chart in
+  $\mathcal{A}$. Given an equivalence class $\mathfrak{A}$ of atlases,
+  we may obtain a maximal atlas by considering
+  \begin{equation}
+    \mathcal{A}_{\text{max}} = \bigcup_{\mathcal{A}\in\mathfrak{A}}\mathcal{A}.
+  \end{equation}
+  This may be used instead of an equivalence class of atlases in
+  defining a differential structure, provided the second-countable axiom
+  is reworded as: $\mathcal{A}_{\text{max}}$ contains an at most
+  countable subatlas.
+\end{remark}
+
+\begin{remark}[Convenient Fiction]
+No one actually constructs either a maximal atlas or a differential
+structure. We typically construct a smooth atlas on $M$, then announce
+we are working with the differential structure containing our
+atlas. Thus maximal atlases and, to some degree, differential structures
+are a convenient fiction.
+\end{remark}
+
+\begin{definition}
+  A \define{(Smooth) $n$-Dimensional Manifold} consists of a set $M$
+  equipped with an $n$-dimensional differential structure.
+\end{definition}
+
+\begin{puzzle}
+  Is this definition correct? By this, I mean: is an
+  ``$n$-Dimensional Differential Structure''
+  \emph{actually} structure (in the sense of ``stuff, structure, and properties'')?
+\end{puzzle}
