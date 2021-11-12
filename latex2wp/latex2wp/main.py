@@ -340,12 +340,16 @@ def convertitm(m):
     else:
         return '\n</ul>\n\n'
 
+is_start_of_list = False
 
 def convertenum(m):
+    global is_start_of_list
     if m.find('begin') != -1:
+        is_start_of_list = True
         return '\n\n<ol>'
     else:
-        return '\n</ol>\n\n'
+        is_start_of_list = False
+        return '</li>\n</ol>\n\n'
 
 
 def convertbeginnamedthm(thname, thm, count):
@@ -502,7 +506,12 @@ def processtext(t, ref, count, html):
         elif tcontrol[i].find('{enumerate}') != -1:
             w = w + convertenum(tcontrol[i])
         elif tcontrol[i][0:5] == '\\item':
-            w = w + '</li>\n<li>'
+            global is_start_of_list
+            if is_start_of_list:
+                is_start_of_list = False
+            else:
+                w = w + '</li>'
+            w = w + '\n<li>'
         elif tcontrol[i][0:6] == '\\nitem':
             lb = tcontrol[i][7:].replace('{', '')
             lb = lb.replace('}', '')
@@ -700,6 +709,8 @@ def convert_one(s, html=False):
 
     s = s.replace('<p>', '\n<p>\n')
 
+    vacuous_ws = re.compile(r'<p>\s*</p>')
+    s = re.sub(vacuous_ws, '', s)
     return s
 
 
