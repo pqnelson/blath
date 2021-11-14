@@ -11,9 +11,13 @@
 \titleformat*{\subsection}{\large\bfseries\sffamily}
 \titleformat*{\subsubsection}{\bfseries\sffamily}
 
+\newskip\interchunkskip \interchunkskip=\medskipamount%
+% cwebmac.tex has \interchunkskip=12pt minus 3pt
+\newskip\thmskip \thmskip=\interchunkskip%\topsep
+
 \newtheoremstyle{thmstyle}
-  {\topsep}   % ABOVESPACE
-  {\topsep}   % BELOWSPACE
+  {\thmskip}   % ABOVESPACE
+  {\thmskip}   % BELOWSPACE
   {\itshape}  % BODYFONT
   {0pt}       % INDENT (empty value is the same as 0pt)
   {\bfseries} % HEADFONT
@@ -21,8 +25,8 @@
   {0.5em plus 1pt minus 1pt} % HEADSPACE
   {\thmnumber{#2\@addpunct{.}\enspace}\thmname{#1}\thmnote{\enspace\textrm{\normalfont(#3)}}}          % CUSTOM-HEAD-SPEC
 \newtheoremstyle{defnstyle}
-  {\topsep}   % ABOVESPACE
-  {\topsep}   % BELOWSPACE
+  {\thmskip}   % ABOVESPACE
+  {\thmskip}   % BELOWSPACE
   {}          % BODYFONT
   {0pt}       % INDENT (empty value is the same as 0pt)
   {\bfseries} % HEADFONT
@@ -30,8 +34,8 @@
   {0.5em plus 1pt minus 1pt} % HEADSPACE
   {\thmnumber{#2\@addpunct{.}\enspace}\thmname{#1}\thmnote{\enspace\textrm{\normalfont(#3)}}}          % CUSTOM-HEAD-SPEC
 \newtheoremstyle{rmkstyle}
-  {\topsep}   % ABOVESPACE
-  {\topsep}   % BELOWSPACE
+  {\thmskip}   % ABOVESPACE
+  {\thmskip}   % BELOWSPACE
   {}          % BODYFONT
   {0pt}       % INDENT (empty value is the same as 0pt)
   {\itshape} % HEADFONT
@@ -70,8 +74,17 @@
   \def\@addpunct#1{\ifnum\spacefactor>\@m \else#1\fi}
   }{}
 
+\newcommand\chunkskip{\vskip\interchunkskip}
+%% \newcommand\chunkbreak{\par\ifdim\lastskip<\interchunkskip
+%%   \removelastskip\vfil\penalty-100\vfilneg % beginning of section
+%%   \chunkskip
+%% }
+\newcommand\chunkbreak{\par%\ifdim\lastskip<\interchunkskip\removelastskip%
+  \vfil\penalty-100\vfilneg % beginning of section
+  \chunkskip
+}
 
-\newcommand\M{\medbreak\noindent%
+\newcommand\M{\chunkbreak\noindent%
   \refstepcounter{chunk@ctr}%
   \textbf{\thechunk@ctr\@addpunct{.}}\quad\ignorespaces}
 
@@ -84,7 +97,7 @@
         \NStar%
         \NNoStar%
 }
-\def\NStar#1{\medbreak\noindent\textbf{#1\@addpunct{.}\quad}\ignorespaces}
+\def\NStar#1{\chunkbreak\noindent\textbf{#1\@addpunct{.}\quad}\ignorespaces}
 \def\NNoStar#1{\M\textbf{#1\@addpunct{.}\quad}\ignorespaces}
 
 % permits writing \N*{Un-numbered chunk} for a chunk
