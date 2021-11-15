@@ -1,0 +1,155 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,nopageno}
+\usepackage{blogmac}
+\usepackage[all]{xy}
+\SelectTips{cm}{12}
+%\SelectTips{eu}{12}
+%\SelectTips{xy}{12}
+
+\begin{document}
+
+\M
+Universal law for product object:
+
+$\xymatrix{
+&\ar[dl] Z  \ar@{-->}[d] \ar[dr]&\\
+  A  & \ar[l]A\times B\ar[r] &  B}$
+
+\M
+Universal law for coproduct object:
+
+$\xymatrix{
+  A\ar[dr]\ar[r]  & A\sqcup B\ar@{-->}[d] & \ar[l]\ar[dl] B\\
+& Z &
+}$
+
+\N{Pullback}
+$$\xymatrix{
+  Q \ar@{-->}[dr]\ar@/^/[drr]\ar@/_/[ddr] &                 &\\
+                                  & A\times_{C}B \ar[d]^{\pi_{1}} \ar[r]^{\pi_{2}} & B \ar[d] \\
+                                  & A \ar[r]        & C }$$
+
+\M
+Pullbacks:
+$$\xymatrix{
+  Q \ar@{-->}[dr]\ar@/^1pc/[drr]\ar@/_1pc/[ddr] &                 &\\
+                                  & A\times_{C}B \ar[d]^{\pi_{1}} \ar[r]^(0.6){\pi_{2}} & B \ar[d] \\
+                                  & A \ar[r]        & C }$$
+
+
+\M
+Another attempt at pullback
+$$\xymatrix{
+  Q \ar@{-->}[dr]\ar@/^2pc/[drr]\ar@/_2pc/[ddr] &                 &\\
+                                  & A\times_{C}B \ar[d]^{\pi_{1}} \ar[r]^(0.6){\pi_{2}} & B \ar[d] \\
+                                  & A \ar[r]        & C }$$
+
+
+\M Wikipedia's page uses:
+\begin{equation*}
+  \xymatrix@C+2em@R+2em{
+    Q \ar@/_10pt/[ddr]_{q_1}%
+    \ar@/^10pt/[drr]^{q_2}%
+    \ar@{-->}[dr]|*+<3pt,3pt>{\scriptstyle u} & & \\
+   & P \ar[d]_(0.4){p_1} \ar[r]^(0.4){p_2} & Y \ar[d]^{g}\\
+   & X \ar[r]_{f} & Z
+  }
+\end{equation*}
+
+\N{Pushout}
+Just as the pullback is obtained by adding an object and a couple
+morphisms from the product diagrams, so too are pushouts obtained from
+coproducts.
+\begin{equation*}
+\xymatrix{C \ar[d]_{f_{A}} \ar[r]^{f_{B}} & B\ar[d]^{i_{2}}\ar@/^1pc/[ddr]^{j_{2}} &\\
+  A \ar[r]^(0.4){i_{1}} \ar@/_1pc/[drr]_{j_{1}} & {A\sqcup_{C}\!B} \ar@{-->}[dr] &\\
+ & & Q}
+\end{equation*}
+
+\M
+From wikipedia, they don't reverse it like one should:
+\begin{equation*}
+  \xymatrix@C+2em@R+2em{
+   Q \ar@/_10pt/@{<-}[ddr]_{j_1} \ar@/^10pt/@{<-}[drr]^{j_2}
+     \ar@{<--}[dr]|*+<3pt,3pt>{\scriptstyle u} & & \\
+   & P \ar@{<-}[d]_(0.4){i_1} \ar@{<-}[r]^(0.4){i_2} & Y \ar@{<-}[d]^{g}\\
+   & X \ar@{<-}[r]_{f} & Z
+  }
+\end{equation*}
+
+\N{Equalizer}
+\begin{equation*}
+  \xymatrix{
+    E\ar[r]^{eq} & X \ar@<0.5ex>[r]^{f}_{}\ar@<-0.5ex>[r]_{g} & Y\\
+    W\ar@{-->}[u]\ar[ur]_{m} & &
+  }
+\end{equation*}
+
+\N{Co-Equalizers}
+\begin{equation*}
+  \xymatrix{
+    X \ar@<0.5ex>[r]^{f}_{}\ar@<-0.5ex>[r]_{g} & Y \ar[r]^{q}\ar[dr]_{q'} & C\ar@{-->}[d]\\
+    & & Z
+  }
+\end{equation*}
+
+\N{Group Object}
+We have associativity of multiplication
+\def\id{\mathrm{id}}
+\begin{equation*}
+  \xymatrix{
+    G\times G\times G \ar[d]_{\id\times\mu}\ar[r]^{\mu\times\id} & G\times G\ar[d]^{\mu}\\
+    G\times G\ar[r]^{\mu} & G
+    }
+\end{equation*}
+Unit laws
+\begin{equation*}
+  \xymatrix @C=3pc @R=3pc{
+    \ast\times G\ar[dr]_{\pi_{2}}
+    \ar[r]^{(e,\id)} & G\times G\ar[d]^{\mu} &
+    \ar[l]_{(\id,e)}\ar[dl]^{\pi_{1}}
+    G\times\ast\\
+    & G &
+  }
+\end{equation*}
+Or, unit laws using consistent notation
+\begin{equation*}
+  \xymatrix @C=3pc @R=3pc{
+    \ast\times G\ar[dr]_{\pi_{2}}
+    \ar[r]^{e\times\id} & G\times G\ar[d]^{\mu} &
+    \ar[l]_{\id\times e}\ar[dl]^{\pi_{1}}
+    G\times\ast\\
+    & G &
+  }
+\end{equation*}
+And the laws governing inverses:
+\begin{equation*}
+  \xymatrix @C=6pc @R=3pc{
+    G\ar[dr]_{\id}\ar[r]^{((-)^{-1},\id)\circ\Delta} & G\times G\ar[d]^{\mu} & \ar[l]_{(\id,(-)^{-1})\circ\Delta}\ar[dl]^{\id} G\\
+    & G &
+  }
+\end{equation*}
+Or, for consistency:
+\begin{equation*}
+  \xymatrix @C=6pc @R=3pc{
+    G\ar[dr]_{\id}\ar[r]^{((-)^{-1}\times\id)\circ\Delta} & G\times G\ar[d]^{\mu} & \ar[l]_{(\id\times(-)^{-1})\circ\Delta}\ar[dl]^{\id} G\\
+    & G &
+  }
+\end{equation*}
+
+\M
+\xymatrix{
+A \ar@{-}[dr]
+&{}\save[]+<3cm,0cm>*\txt<8pc>{%
+This is a very big commentary
+but it does not otherwise affect
+the diagram.}
+\ar[l] \ar[d] \restore \\
+& B \ar@{-}[r] & C \ar@{-}[r] & D
+}
+
+\M
+$\xymatrix{\ar @{} [dr] |{=}
+  A \ar[d] \ar[r] & B \ar[d] \\
+B \ar[r] & C }$
+\end{document}
