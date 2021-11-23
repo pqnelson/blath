@@ -1,11 +1,204 @@
 \M
 There is some ``Kabuki theater'' whenever introducing a new mathematical
-gadget, thanks to \ifblog\href{https://texnicalstuff.blogspot.com/2009/08/object-oriented-math-category-theory-as.html}{category theory}:\else category theory:\fi
+gadget, thanks to \ifblog\href{https://texnicalstuff.blogspot.com/2009/08/object-oriented-math-category-theory-as.html}{category theory}:\fi\iftex category theory:\fi
 we have our new gadget, then we could ask about morphisms (very
 important), ``subgadgets'', and universal constructions (products,
 quotients, etc.). The exciting thing, as in Kabuki theater, is the order
 and manner of presentation.
 
+\begin{definition}
+  Let $G$ and $H$ be groups. We define a \define{Group Morphism} to
+  consist of a function $\varphi\colon G\to H$ of the underlying sets
+  such that
+  \begin{enumerate}
+  \item group operation is preserved: for any $g_{1}$, $g_{2}\in G$, we have $\varphi(g_{1}g_{2})=\varphi(g_{1})\varphi(g_{2})$;
+  \item identity element is preserved: if $e_{G}\in G$ is the identity
+    element of $G$ and $e_{H}\in H$ is the identity element of $H$, then $\varphi(e_{G})=e_{H}$;
+  \item inverse is preserved: for any $g\in G$, $\varphi(g^{-1})=\varphi(g)^{-1}$.
+  \end{enumerate}
+\end{definition}
 
+\begin{remark}
+  Older texts refer to group morphisms as ``group
+  \emph{homomorphisms}''.
+  After category theory became popular and part of the standard
+  curriculum, the ``homo-'' prefix was dropped because group morphisms
+  live in the same category, so it was redundant.
+\end{remark}
 
+\begin{example}
+  One ``low hanging fruit'' for morphism examples is the identity
+  morphism. We should check, for any group $G$, the identity function
+  $\id\colon G\to G$ is a \emph{bona fide} group morphism.
+
+  We see it preserves the group operation. For any $g_{1}$, $g_{2}\in G$,
+  we have $\id(g_{1}g_{2})=g_{1}g_{2}$ by definition of the identity
+  function. But this is also equal to $\id(g_{1})\id(g_{2})$. Thus the
+  group operation is preserved.
+
+  The identity element is preserved $\id(e_{G})=e_{G}$.
+
+  Inversion is also preserved $\id(g^{-1})=g^{-1}=\id(g)^{-1}$ for any
+  $g\in G$.
+
+  Thus taken together, it follows the identity mapping satisfies the
+  axioms of a group morphism.
+\end{example}
+
+\begin{example}
+  Let $G$ be any group, and consider $\ZZ$ equipped with addition as a
+  group. For each $g\in G$, we have a group morphism
+  $\varphi\colon\ZZ\to G$ sending $1\in\ZZ$ to $g\in G$. Is this
+  \emph{really} a group morphism?
+
+  We can check that the properties are (or, ought to be) satisfied. If
+  the group operation is preserved, then
+  $\varphi(1+1)=\varphi(1)\varphi(1)=g^{2}$ and more generally, for any
+  $m\in\ZZ$, we have
+  $\varphi(m+1)=\varphi(1)^{m}=g^{m}$.
+
+  For the identity element being preserved, that means
+  $\varphi(0)=e_{G}$, which is fine: it corresponds to $g^{0}=e_{G}$.
+
+  Group inverses would be
+  $\varphi(-m)=\varphi(m)^{-1}=(g^{m})^{-1}$. And we know this is
+  precisely the same as $g^{-m}$.
+\end{example}
+
+\begin{example}
+  Consider the group $\GL(2,\RR)$ and the multiplicative group
+  $\RR^{\times}$ of nonzero real numbers. Then the determinant
+  \begin{equation}
+    \det\colon\GL(2,\RR)\to\RR^{\times}
+  \end{equation}
+  is a group morphism. Let us prove it!
+
+  We see, for any matrices $M$, $N\in\GL(2,\RR)$ we have
+  \begin{equation}
+    \det(MN)=\det(M)\det(N).
+  \end{equation}
+  This is a familiar fact in linear algebra. But for us, it tells us the
+  group operation is preserved.
+
+  The identity element must be mapped to the identity element. We see
+  the identity matrix $I\in\GL(2,\RR)$ has $\det(I)=1$. Thus the
+  determinant preserves the group identity element.
+
+  As far as the group inverse, well, this follows from previous results,
+  right? After all, if $M\in\GL(2,\RR)$, then $M^{-1}\in\GL(2,\RR)$, and
+  \begin{equation}
+    I = M^{-1}M
+  \end{equation}
+  so
+  \begin{equation}
+    \det(M^{-1}M)=\det(M^{-1})\det(M)=1
+  \end{equation}
+  and thus by division
+  \begin{equation}
+    \det(M^{-1})=\det(M)^{-1}.
+  \end{equation}
+  Thus the group inverse operator is preserved.
+\end{example}
+
+\begin{definition}
+  Let $\varphi\colon G\to H$ be a group morphism. We define the
+  \define{Kernel} of $\varphi$ to be the pre-image of the identity
+  element of $H$:
+  \begin{equation*}
+    \ker(\varphi)=\{g\in G|\varphi(g)=e_{H}\}.
+  \end{equation*}
+\end{definition}
+
+\begin{example}
+  For the group morphism $\det\colon\GL(2,\RR)\to\RR^{\times}$, the
+  kernel would be
+  \begin{equation}
+    \ker(\det)=\{M\in\GL(2,\RR)|\det(M)=1\}.
+  \end{equation}
+  That is to say, it consists of matrices with unit
+  determinant. Observe, this is a group under matrix multiplication: if
+  two matrices have unit determinant, their product has unit
+  determinant; the identity matrix is in the kernel; and it's closed
+  under inverses. This is an important group called the
+  \define{Special Linear Group}, denoted $\SL(2,\RR)$.
+\end{example}
+
+\section{Properties of Morphisms}
+
+\begin{proposition}
+  Let $\varphi\colon G\to H$ be a group morphism.
+  If $g\in G$ is any element, then $\varphi(g^{-1})=\varphi(g)^{-1}$.
+\end{proposition}
+
+\begin{proof}
+  Let $g\in G$ (so $\varphi(g)\in H$).
+  We find $\varphi(g\cdot g^{-1})=\varphi(g)\varphi(g^{-1})=e_{H}$,
+  thus multiplying on the left by $\varphi(g)^{-1}$ gives the result.
+\end{proof}
+
+\begin{proposition}
+  Let $\varphi\colon G\to H$ be a group morphism.
+  If $g\in G$ is any element and $n\in\ZZ$ is any integer,
+  then $\varphi(g^{n})=\varphi(g)^{n}$.
+\end{proposition}
+
+\begin{proof}
+  Per cases since $n<0$ or $n=0$ or $n>0$. The $n=0$ case is obvious.
+
+  For $n>0$, by induction. The base case $n=1$ gives
+  $\varphi(g^{1})=\varphi(g)^{1}$, which is obvious. Assume this holds
+  for arbitrary $n$. Then the inductive case $n+1$ is
+  \begin{equation}
+    \varphi(g^{n+1})=\varphi(g^{n}g)=\varphi(g)^{n}\varphi(g)=\varphi(g)^{n+1}.
+  \end{equation}
+  Thus we have proven the result for non-negative $n$.
+
+  For negative $n\in\ZZ$, the proof is analogous.
+\end{proof}
+
+\begin{theorem}
+  The composition of group morphisms is a group morphism. More
+  explicitly, if $\varphi\colon G\to H$ and $\psi\colon H\to K$ are
+  group morphisms, then $\psi\circ\varphi\colon G\to K$ is a group morphism.
+\end{theorem}
+
+\begin{theorem}
+  Let $\varphi\colon G\to H$ be a group morphism.
+  If $\ker(\varphi)=\{e_{G}\}$, then $\varphi$ is injective.
+\end{theorem}
+\begin{proof}
+  Assume $\ker(\varphi)=\{e_{G}\}$.
+  Let $g_{1}$, $g_{2}\in G$ be completely arbitrary. (We want to show if
+  $\varphi(g_{1})=\varphi(g_{2})$, then $g_{1}=g_{2}$.)
+  Assume $\varphi(g_{1})=\varphi(g_{2})$.
+  Then $\varphi(g_{1})\varphi(g_{2})^{-1}=e_{H}$ by multiplying both
+  sides on the right by $\varphi(g_{2})^{-1}$.
+  And $\varphi(g_{1})\varphi(g_{2}^{-1})=\varphi(g_{1}\cdot g_{2}^{-1})=e_{H}$.
+  Thus $g_{1}\cdot g_{2}^{-1}\in\ker(\varphi)$ by definition of the
+  kernel.
+  But we assumed the only member of the kernel was identity element.
+  Thus $g_{1}\cdot g_{2}^{-1}=e_{G}$, and moreover $g_{1}=g_{2}$.
+  Hence $\varphi$ is injective.
+\end{proof}
+
+\section{Exercises}
+
+\begin{exercise}
+  Let $G$ be a group, $n\in\NN$ be a fixed positive integer.
+  Prove or find a counter-example: $\varphi\colon G\to G$, sending $g$
+  to $\varphi(g)=g^{n}$ is a group morphism.
+\end{exercise}
+
+\begin{exercise}
+  Prove or find a counter-example: the matrix trace
+  $\tr\colon\GL(2,\RR)\to\RR$ is a group morphism.
+\end{exercise}
+
+\begin{exercise}
+  Is the exponential function on the real numbers a group morphism $\exp\colon\RR\to\RR^{\times}$?
+\end{exercise}
+
+\begin{exercise}
+  Is the matrix exponential a group morphism $\exp\colon\Mat_{2}(\RR)\to\GL(2,\RR)$?
+\end{exercise}
 
