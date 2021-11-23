@@ -13,6 +13,7 @@
 
 \newskip\interchunkskip \interchunkskip=\medskipamount%
 % cwebmac.tex has \interchunkskip=12pt minus 3pt
+% latex.ltx and plain.tex has \medskipamount=6pt plus 2pt minus 2pt
 \newskip\thmskip \thmskip=\interchunkskip%\topsep
 
 \newtheoremstyle{thmstyle}
@@ -75,14 +76,9 @@
   }{}
 
 \newcommand\chunkskip{\vskip\interchunkskip}
-%% \newcommand\chunkbreak{\par\ifdim\lastskip<\interchunkskip
-%%   \removelastskip\vfil\penalty-100\vfilneg % beginning of section
-%%   \chunkskip
-%% }
-\newcommand\chunkbreak{\par%\ifdim\lastskip<\interchunkskip\removelastskip%
-  \vfil\penalty-100\vfilneg % beginning of section
-  \chunkskip
-}
+
+\def\chunkbreak{\par\ifdim\lastskip<\interchunkskip
+  \removelastskip\penalty-100\chunkskip\fi}
 
 \newcommand\M{\chunkbreak\noindent%
   \refstepcounter{chunk@ctr}%
