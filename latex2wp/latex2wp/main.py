@@ -352,6 +352,15 @@ def convertenum(m):
         return '</li>\n</ol>\n\n'
 
 
+def is_remark(thm):
+    return 'remark'==thm
+
+def is_cor(thm):
+    return 'corollary'==thm
+
+def is_exercise(thm):
+    return 'exercise'==thm
+
 def convertbeginnamedthm(thname, thm, count):
     count[style.theorems[thm]] += 1
     t = ""
@@ -359,12 +368,17 @@ def convertbeginnamedthm(thname, thm, count):
     if is_section_open:
         t = t + "</section>\n"
         is_section_open = False
-    t = t + style.beginnamedthm.replace('_ThmType_', thm.capitalize())
-    t = t.replace('_ThmNumb_', str(count[style.theorems[thm]]))
+    template = style.beginnamedthm
+    if is_exercise(thm):
+        template = style.begin_named_xca
+    t = t + template.replace('_ThmType_', thm.capitalize())
+    thm_number = str(count[style.theorems[thm]])
+    if is_remark(thm) or is_cor(thm):
+        thm_number = str(count[style.theorems['theorem']])+"."+thm_number
+    t = t.replace('_ThmNumb_', thm_number)
     t = t.replace('_ThmName_', thname)
     t = t + style.thm_style_start.get(thm, '')
     return t
-
 
 def convertbeginthm(thm, count):
     count[style.theorems[thm]] += 1
@@ -373,8 +387,14 @@ def convertbeginthm(thm, count):
     if is_section_open:
         t = t + "</section>\n"
         is_section_open = False
-    t = t + style.beginthm.replace('_ThmType_', thm.capitalize())
-    t = t.replace('_ThmNumb_', str(count[style.theorems[thm]]))
+    template = style.beginthm
+    if is_exercise(thm):
+        template = style.begin_xca
+    t = t + template.replace('_ThmType_', thm.capitalize())
+    thm_number = str(count[style.theorems[thm]])
+    if is_remark(thm) or is_cor(thm):
+        thm_number = str(count[style.theorems['theorem']])+"."+thm_number
+    t = t.replace('_ThmNumb_', thm_number)
     t = t + style.thm_style_start.get(thm, '')
     return t
 

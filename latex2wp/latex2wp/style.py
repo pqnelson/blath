@@ -32,25 +32,29 @@ colors = dict(red='ff0000', green='00ff00', blue='0000ff')
 # counters for theorem-like environments
 # assign any counter to any environment. Make sure that
 # maxcounter is an upper bound to the any counter being used
-theorems = dict(theorem=0, lemma=0, proposition=0, definition=0, corollary=0, conjecture=0, remark=0, example=0,
+theorems = dict(theorem=0, lemma=0, proposition=0, definition=0, corollary=2, conjecture=0, remark=2, example=0,
                 claim=0, exercise=1, problem=0, question=0)
 
 # the way \begin{theorem}, \begin{lemma} etc are translated in HTML
 # the string _ThmType_ stands for the type of theorem
 # the string _ThmNumb_ is the theorem number
 # beginthm = '\n<section class="_ThmType_"><b>_ThmType_ _ThmNumb_.</b> '
-beginthm = '\n<section class="proposition _ThmType_">\n<p>\n<span class="number">_ThmNumb_.</span> <span class="label">_ThmType_.</span> '
+beginthm = '\n<section class="proposition _ThmType_"><p><span class="number">_ThmNumb_.</span> <span class="label">_ThmType_.</span> '
+
+begin_xca = '\n<section class="proposition _ThmType_"><p><span class="label">_ThmType_</span> <span class="number">_ThmNumb_.</span> '
 
 # translation of \begin{theorem}[...]. The string
 # _ThmName_ stands for the content betwee the
 # square brackets
 #beginnamedthm = '\n<section class="_ThmType_"><b>_ThmType_ _ThmNumb_ (_ThmName_).</b> '
-beginnamedthm = '\n<section class="proposition _ThmType_">\n<p>\n<span class="number">_ThmNumb_.</span> <span class="label">_ThmType_ (_ThmName_).</span> '
+beginnamedthm = '\n<section class="proposition _ThmType_"><p><span class="number">_ThmNumb_.</span> <span class="label">_ThmType_ (_ThmName_).</span> '
+
+begin_named_xca = '\n<section class="proposition _ThmType_"><p><span class="label">_ThmType_</span> <span class="number">_ThmNumb_</span> (_ThmName_)<span class="label">.</span> '
 
 # translation of \end{theorem}, \end{lemma}, etc.
 endthm = '\n</p>\n</section>\n<p>\n'
 
-beginproof = '<section class="proof">\n<em>Proof:</em> '
+beginproof = '\n<section class="proof"><p><em>Proof:</em> '
 
 thm_style_start = dict(theorem='<em>', lemma='<em>', proposition='<em>', corollary='<em>', conjecture='<em>')
 thm_style_end = dict(theorem='</em>', lemma='</em>', proposition='</em>', corollary='</em>', conjecture='</em>')
