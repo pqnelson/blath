@@ -1,0 +1,161 @@
+\M
+Suppose we have successfully formalized the classification theorem for
+finite simple groups in your favorite theorem prover (Lean, HOL, Coq,
+Mizar, whatever). In a century's time, do you think your theorem prover
+will still be around and backwards compatible? If not, what good would
+the formalization be?
+
+\N{Readable Proofs}
+One of the several roles for proofs in mathematics is
+\emph{communication}. Hence we need something analogous to the notion of
+``readable code'' in programming: readable proofs. Consider the
+following proof, tell me what it does (no cheating!):
+
+\begin{Verbatim}
+prove
+ (`!p q. p * p = 2 * q * q ==> q = 0`,
+  MATCH_MP_TAC num_WF THEN REWRITE_TAC[RIGHT_IMP_FORALL_THM] THEN
+  REPEAT STRIP_TAC THEN FIRST_ASSUM(MP_TAC o AP_TERM `EVEN`) THEN
+  REWRITE_TAC[EVEN_MULT; ARITH] THEN REWRITE_TAC[EVEN_EXISTS] THEN
+  DISCH_THEN(X_CHOOSE_THEN `m:num` SUBST_ALL_TAC) THEN
+  FIRST_X_ASSUM(MP_TAC o SPECL [`q:num`; `m:num`]) THEN
+  POP_ASSUM MP_TAC THEN CONV_TAC SOS_RULE);;
+\end{Verbatim}
+
+Or the following:
+
+\begin{Verbatim}
+Proof.
+  rewrite EL2 with (p_prime := p_prime) (p_odd := p_odd) by (omega || auto).
+  rewrite EL2 with (p_prime := q_prime) (p_odd := q_odd) by (omega || auto).
+  rewrite m1_pow_compatible. rewrite <- m1_pow_morphism.
+  f_equal. rewrite <- QR6. unfold a. unfold b. auto.
+  rewrite <- Zmult_0_r with (n := (p - 1) / 2).
+  apply Zmult_ge_compat_l. omega. omega.
+Qed.
+\end{Verbatim}
+
+I honestly wouldn't guess the first example had to do with proving
+$\sqrt{2}\notin\QQ$, nor would I have imagined the second had to do with
+the law of quadratic recipricocity. (The first in HOL Light, the second
+in Coq.) What do you suppose mathematicians of the 25th century would
+think of these proofs? Would our efforts formalizing mathematics in a
+theorem prover yield fruit akin to Euclid's \emph{Elements}, or would it
+be more indecipherable than Russell and Whitehead's \emph{Principia}?
+
+Hence, I would like to assess the following question:
+
+\begin{puzzle}
+What qualities make a proof ``readable''?
+\end{puzzle}
+
+\N{Sources}
+We're not in the wilderness on this matter. Some very smart people have
+thought very hard about this question. But we haven't progressed much in
+the past few decades, compared to designing programming languages. We
+all seem to draw waters from the same well.
+
+Andrzej Trybulec created Mizar~\ref{matuszewski:mizar} specifically for
+readability. Over the years, Mizar went from an abstract idea to a
+concrete realization, iteratively improving its input language to make
+it resemble a working mathematician's proofs. A cynical critic may
+deride Mizar as merely natural deduction in Pascal syntax, but that
+concedes the point: it's readable and understandable on its own, without
+relying on the computer to tell us the ``proof state'' and remaining
+goals in a proof.
+
+The other major source of inspiration, I think, is Mark Wenzel's Isar
+front-end for Isabelle~\ref{wenzel:phd-thesis} (and enlightening
+discussion of a prototype~\ref{wenzel:tphols99}). Here the system
+\emph{emerges} bottom-up, as discussed in \S3.2 of Wenzel's
+thesis~\ref{wenzel:phd-thesis}. Other theorem provers attempted to
+simply copy/paste Isar commands, but apparently they never caught on. I
+suspect this is due to copying the superficialities, rather than drawing
+upon the underlying principles, produced an awkward input language.
+
+There are other sources worth perusing, like Zammit's ``Structured Proof
+Language''~\ref{zammit:phd-thesis} among others. We also mention Isar
+inspired many prototypes to adapt Mizar-style proofs to other theorem
+provers (Corbineau's Czar~\ref{corbineau-czar}, Giero and Wiedijk's MMode~\ref{giero-wiedijk-mmode},
+Harrison's Mizar Mode for HOL~\ref{harrison-mizar-mode})
+Also worth mentioning is \textsc{ForTheL}~\ref{paskevich-forthel} which
+emerged from the Soviet SAD theorem prover~\ref{lyaletski-sad}, possibly
+a future input language for Lean.
+
+\N{Terminology}
+One bit of terminology, John Harrison~\ref{harrison:proof-style} calls
+the structured proof style ``declarative style proofs'', which seems
+fine. Some fanatics of the procedural camp dislike the term. Giero and
+Wiedijk~\ref{giero-wiedijk-mmode} point out the
+differences between procedural and declarative styles are:
+\begin{enumerate}
+\item a procedural proof generally run backward (from goal to the
+  assumptions), whereas declarative proofs run mostly forwards (from the
+  assumptions to the goal);
+\item a procedural proof generally does not have statements containing
+  the statements which occur in the proof states, whereas declarative
+  proofs do;
+\item a procedural proofs have few proof cuts, whereas declarative
+  proofs have nearly one cut for each proof step.
+\end{enumerate}
+It turns out these qualities \emph{do} make a difference on the
+readability of a proof script. But this is a bit like trying to learn an
+author's writing style by examining the statistics of the author's
+writing, like ``Average number of words per sentence'' or ``Average
+number of syllables per word''.
+
+\section{Bibliography}
+
+\begin{enumerate}[label={[\arabic*]},left=0pt]
+\item\label{corbineau-czar} Pierre Corbineau,
+  ``A Declarative Language For The Coq Proof Assistant''.
+  In Marino Miculan, Ivan Scagnetto, and Furio Honsell, editors, \emph{Types for Proofs and Programs, International Conference, TYPES 2007, Cividale des Friuli, Italy, May 2-5, 2007, Revised Selected Papers},
+  volume 4941 of Lecture Notes in Computer Science, pages 69--84. Springer, 2007.
+  \url{https://kluedo.ub.uni-kl.de/frontdoor/deliver/index/docId/2100/file/B-065.pdf}
+\item\label{giero-wiedijk-mmode} Mariusz Giero and Freek Wiedijk,
+  ``MMode: A Mizar Mode for the proof assistant Coq''.
+  Technical report, ICIS, Radboud Universiteit Nijmegen, 2004.
+  \url{https://www.cs.ru.nl/~freek/mmode/mmode.pdf}
+\item\label{harrison-mizar-mode} John Harrison,
+  ``A Mizar Mode for HOL''.
+  In \emph{Proceedings of the 9th International Conference on Theorem Proving in Higher Order Logics, TPHOLs '96}, volume
+  1125 of LNCS, pages 203--220. Springer, 1996.
+  \url{https://www.cl.cam.ac.uk/~jrh13/papers/mizar.html}
+\item\label{harrison:proof-style} John Harrison,
+  ``Proof Style''.
+  \url{https://www.cl.cam.ac.uk/~jrh13/papers/style.html}
+\item Stanislaw Ja\'skowski
+  ``On the Rules of Suppositions in Formal Logic''.
+  \emph{Studia Logica} \textbf{1} (1934) pp.5--32.
+  \url{https://www.logik.ch/daten/jaskowski.pdf}
+\item\label{lyaletski-sad} Alexander Lyaletski,
+  ``Evidence  Algorithm  Approach  to  Automated  Theorem  Proving 
+  and SAD Systems''.
+  \url{http://ceur-ws.org/Vol-2833/Paper_14.pdf}
+\item\label{matuszewski:mizar} Roman Matuszewski, Piotr Rudnicki,
+  ``Mizar: The First 30 Years''.
+  \emph{Mechanized Mathematics and Its Applications} \textbf{4}, 1 (2005) pp.3--24.
+  \url{http://mizar.org/people/romat/MatRud2005.pdf}
+\item\label{paskevich-forthel} Andrei Paskevich,
+  ``The syntax and semantics of the ForTheL language''.
+  Manuscript dated December 2007,
+  \url{http://nevidal.org/download/forthel.pdf}
+\item\label{wenzel:tphols99} Markus Wenzel,
+  ``Isar --- a Generic Interpretative Approach to Readable Formal Proof
+  Documents''.
+  In Y. Bertot, G. Dowek, A. Hirschowitz, C. Paulin, L. Thery, editors, \emph{Theorem Proving in Higher Order Logics, TPHOLs'99}, LNCS 1690, \copyright Springer, 1999.
+  \url{https://www21.in.tum.de/~wenzelm/papers/Isar-TPHOLs99.pdf}
+\item\label{wenzel:phd-thesis} Markus Wenzel,
+  ``Isabelle/Isar --- a versatile environment for human-readable formal
+  proof documents''.
+  PhD thesis,
+  Institut f\"ur Informatik, Technische Universit\"at M\"unchen, 2002. 
+  \url{https://mediatum.ub.tum.de/doc/601724/601724.pdf}
+\item Markus Wenzel and Free Wiedijk.
+  ``A comparison of the mathematical proof languages Mizar and Isar''.
+  \emph{Journal of Automated Reasoning} \textbf{29} (2002), pp.389--411. 
+\item\label{zammit:phd-thesis} Vincent Zammit,  (1999)
+  ``On the Readability of Machine Checkable Formal Proofs''.
+  PhD Thesis, Kent University, 1999.
+  \url{https://kar.kent.ac.uk/21861/}
+\end{enumerate}
