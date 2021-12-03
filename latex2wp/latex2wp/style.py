@@ -33,7 +33,7 @@ colors = dict(red='ff0000', green='00ff00', blue='0000ff')
 # assign any counter to any environment. Make sure that
 # maxcounter is an upper bound to the any counter being used
 theorems = dict(theorem=0, lemma=0, proposition=0, definition=0, corollary=2, conjecture=0, remark=2, example=0,
-                claim=0, exercise=1, problem=0, question=0)
+                claim=0, exercise=1, problem=0, question=0, puzzle=0)
 
 # the way \begin{theorem}, \begin{lemma} etc are translated in HTML
 # the string _ThmType_ stands for the type of theorem

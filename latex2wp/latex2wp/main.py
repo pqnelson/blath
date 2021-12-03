@@ -137,7 +137,7 @@ def extractbody(m):
     m = re.sub(r"''", '"', m)
     m = re.sub(r'`', "'", m)
     m = re.sub(r'\n\n+', '\n</p>\n<p>', m)  # replace double newlines with <p>
-    m = re.sub(r'\s+', ' ', m)  # replace other newlines and multiple spaces with a single space
+    m = re.sub(r'[\s[^\n]]+', ' ', m)  # replace other newlines and multiple spaces with a single space
 
     # process \if[false|tex|blog]...\fi sequences (assume no nesting)
     m = re.sub(r'\\iffalse.*?\\fi', '', m)
@@ -202,6 +202,10 @@ def convertsqb(m):
 
     return m
 
+def convert_verbatim(m):
+    m = m.replace("\\begin{Verbatim}", "<pre>")
+    m = m.replace("\\end{Verbatim}", "</pre>")
+    return m
 
 def converttables(m):
     retable = re.compile(r'\\begin{b?tabular}.*?\\end{b?tabular}')
@@ -694,6 +698,9 @@ def convert_one(s, html=False):
     # extracts text between \begin{document} and \end{document}, normalizes spacing
     s = extractbody(s)
 
+    # format verbatim blocks
+    s = convert_verbatim(s)
+    
     # formats tables
     s = converttables(s)
 
