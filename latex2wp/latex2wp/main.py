@@ -22,7 +22,14 @@
  License along with LaTeX2WP.  If you can't find it,
  see <http://www.gnu.org/licenses/>.
 """
-
+# TODO: convertlab doesn't work nicely with my \N,\M macros
+# TODO: theorem environment doesn't adequately parse named theorems
+#       which references...stuff...
+# TODO: \begin{equation} [x,y]=1 \end{equation} treats the bracket as
+#       optional parameters, which is wrong. A hack is to add {} before [x,y]
+#       \begin{equation}{}[x,y]=1\end{equation} works fine.
+# TODO: remark counter should be "reset" whenever the theorem counter
+#       increments
 import re
 
 import style
