@@ -63,6 +63,9 @@ standard_macros = [['\\more', '<!--more-->'],
 
 Mnomath = [['\\\\', '<br/>\n'],
            ['\\ ', ' '],
+           ['---', '&mdash;'],
+           ['--', '&ndash;'],
+           ['~', ' '],
            ['\\`a', '&agrave;'],
            ['\\\'a', '&aacute;'],
            ['\\"a', '&auml;'],
@@ -74,6 +77,8 @@ Mnomath = [['\\\\', '<br/>\n'],
            ['\\`i', '&igrave;'],
            ['\\\'i', '&iacute;'],
            ['\\"i', '&iuml;'],
+           ['\\l{}', '&lstrok;'],
+           ['\\l ', '&lstrok;'],
            ['\\`o', '&ograve;'],
            ['\\\'o', '&oacute;'],
            ['\\"o', '&ouml;'],
@@ -81,6 +86,7 @@ Mnomath = [['\\\\', '<br/>\n'],
            ['\\\'o', '&oacute;'],
            ['\\"o', '&ouml;'],
            ['\\H o', '&ouml;'],
+           ['\\\'s', '&sacute;'],
            ['\\`u', '&ugrave;'],
            ['\\\'u', '&uacute;'],
            ['\\"u', '&uuml;'],
@@ -200,11 +206,6 @@ def convertsqb(m):
         s = s.replace(']', '}')
         m = m + s + Lrest[i + 1]
 
-    return m
-
-def convert_verbatim(m):
-    m = m.replace("\\begin{Verbatim}", "<pre>")
-    m = m.replace("\\end{Verbatim}", "</pre>")
     return m
 
 def converttables(m):
@@ -481,6 +482,15 @@ def convertsubsection(m, count):
     t = t.replace('_SecName_', L[1])
     return t
 
+def convert_url(m):
+    """Converts a \\url{addr} into <a href='addr'>addr</a>.
+
+    Example:
+    >>> convert_url({https://google.com})
+    '<a href="https://google.com">https://google.com</a>'
+    """
+    L = cb.split(m)
+    return '<a href="' + L[1] + '">' + L[1] + '</a>'
 
 def converturl(m):
     L = cb.split(m)
@@ -516,6 +526,7 @@ def processtext(t, ref, count, html):
                    '|\\\\section\\*\\s*\\{.*?}'
                    '|\\\\subsection\\s*\\{.*?}'
                    '|\\\\subsection\\*\\s*\\{.*?}'
+                   '|\\\\url\\{[^}]+}'
                    '|\\\\href\\s*\\{.*?}\\s*\\{.*?}'
                    '|\\\\hrefnosnap\\s*\\{.*?}\\s*\\{.*?}'
                    '|\\\\image\\s*\\{.*?}\\s*\\{.*?}\\s*\\{.*?}'
@@ -556,6 +567,8 @@ def processtext(t, ref, count, html):
             w = w + convert_N(count, N_label)
         elif tcontrol[i].find('\\hrefnosnap') != -1:
             w = w + converturlnosnap(tcontrol[i])
+        elif tcontrol[i].find('\\url') != -1:
+            w = w + convert_url(tcontrol[i])
         elif tcontrol[i].find('\\href') != -1:
             w = w + converturl(tcontrol[i])
         elif tcontrol[i].find('{proof}') != -1:
@@ -570,6 +583,10 @@ def processtext(t, ref, count, html):
             w = w + convertimage(tcontrol[i])
         elif tcontrol[i].find('\\sout') != -1:
             w = w + convertstrike(tcontrol[i])
+        elif tcontrol[i].find('\\begin') != -1 and tcontrol[i].find('{Verbatim}') != -1:
+            w = w + '<pre>'
+        elif tcontrol[i].find('\\end') != -1 and tcontrol[i].find('{Verbatim}') != -1:
+            w = w + '</pre>'
         elif tcontrol[i].find('\\begin') != -1 and tcontrol[i].find('{center}') != -1:
             w = w + '<p align=center>'
         elif tcontrol[i].find('\\end') != -1 and tcontrol[i].find('{center}') != -1:
@@ -698,9 +715,6 @@ def convert_one(s, html=False):
     # extracts text between \begin{document} and \end{document}, normalizes spacing
     s = extractbody(s)
 
-    # format verbatim blocks
-    s = convert_verbatim(s)
-    
     # formats tables
     s = converttables(s)
 

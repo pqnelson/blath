@@ -88,5 +88,6 @@ fontstyle = {
     r'\textsl{': 'i',
     r'\emph{': 'em',
     r'\textbf{': 'b',
-	r'\define{': 'dfn'
+    r'\define{': 'dfn',
+    r'\textsc{': 'span class="small-caps"'
 }
