@@ -1,9 +1,23 @@
 \M
 Suppose we have successfully formalized the classification theorem for
 finite simple groups in your favorite theorem prover (Lean, HOL, Coq,
-Mizar, whatever). In a century's time, do you think your theorem prover
-will still be around and backwards compatible? If not, what good would
-the formalization be?
+Mizar, whatever). In a century's time (or several centuries from now),
+do you think your theorem prover will still be around and backwards
+compatible? If not, what good would the formalization be?
+
+\begin{remark}[Concerns have been partially realized]
+We stress, despite the concerns raised being hypothetical and distant,
+they have been partly realized already. The Automath project's
+efforts to translate Landau's \emph{Foundations of Analysis} would have
+been lost to history but for Freek Wiedijk's heroic efforts. Or, hitting
+closer to home for many, Lean 3 broke compatibility with Lean 2; and, as
+I understand it, there still remains a large quantity of Lean 2
+libraries not yet ported. Worse, Lean 4 broke compatibility with Lean 3,
+and the Xena project's library has not yet ported to Lean 4. The idea
+that we would encode mathematical knowledge in one single theorem prover
+seems riskier than encoding it in natural language. Why not try to have
+the best of both worlds?
+\end{remark}
 
 \N{Readable Proofs}
 One of the several roles for proofs in mathematics is
@@ -49,7 +63,7 @@ Hence, I would like to assess the following question:
 What qualities make a proof ``readable''?
 \end{puzzle}
 
-\N{Sources}
+\N{Sources.}
 We're not in the wilderness on this matter. Some very smart people have
 thought very hard about this question. But we haven't progressed much in
 the past few decades, compared to designing programming languages. We
@@ -82,7 +96,7 @@ Also worth mentioning is \textsc{ForTheL}~\ref{paskevich-forthel} which
 emerged from the Soviet SAD theorem prover~\ref{lyaletski-sad}, possibly
 a future input language for Lean.
 
-\N{Terminology}
+\N{Declarative proofs.}
 One bit of terminology, John Harrison~\ref{harrison:proof-style} calls
 the structured proof style ``declarative style proofs'', which seems
 fine. Some fanatics of the procedural camp dislike the term. Giero and
@@ -95,7 +109,7 @@ differences between procedural and declarative styles are:
 \item a procedural proof generally does not have statements containing
   the statements which occur in the proof states, whereas declarative
   proofs do;
-\item a procedural proofs have few proof cuts, whereas declarative
+\item a procedural proofs have few \ifblog\href{https://en.wikipedia.org/wiki/Cut_rule}{proof cuts}\fi\iftex{proof cuts}\fi, whereas declarative
   proofs have nearly one cut for each proof step.
 \end{enumerate}
 It turns out these qualities \emph{do} make a difference on the
@@ -104,9 +118,46 @@ author's writing style by examining the statistics of the author's
 writing, like ``Average number of words per sentence'' or ``Average
 number of syllables per word''.
 
+\N{Natural deduction, vernacular.}
+A key insight worth discussing further is that declarative/structured
+proofs emerge from the natural deduction calculus. Curiously,
+Ja\'skowski~\ref{jaskowski-suppositions} (who invented natural deduction
+independent of, and earlier than, Gentzen) does this in his original
+paper. Wiedijk~\ref{wiedijk-mv} considers this avenue using a formal
+grammar for the proof steps, leaving notions like ``term'' and
+``formula'' [i.e., the heart of a proposition/theorem] informal.
+So far, so good; but this has been predominantly first-order logic. How
+do we articulate readable proofs for type theory?
+
+One \emph{linguistic} avenue may be found in de Bruijn's ``mathematical
+vernacular''~\ref{de-bruijn-vernacular}, which then evolved into
+WTT~\ref{kamareddine-nederpelt-wtt}. Another avenue would be to weaken
+existing structured proof formats, so they become independent of
+foundations (e.g., instead of writing ``$x\in\NN$'', we would write
+``$x$ be a natural number'' --- type theory provers would translate this
+into ``$x{:}\NN$'', and set theory provers would translate this into
+``$x\in\NN$'' as before).
+
+\begin{remark}[Soft typing]
+What's worth noting is de Bruijn~\ref{de-bruijn-vernacular} states
+in \S{1.17}, ``In particular we have a kind of meta-typing (the `high
+typing', see Section {3.6}) in the language, whereas most other systems
+would have such things in the metalanguage.'' We now call such `high
+typing' either `soft typing'~\ref{wiedijk-soft-type}, or `semi-soft
+typing'~\ref{kaliszyk-rabe-language}.
+\end{remark}
+
 \section{Bibliography}
 
 \begin{enumerate}[label={[\arabic*]},left=0pt]
+\item\label{de-bruijn-vernacular} Nick de Bruijn,
+  ``The Mathematical Vernacular''.
+  In \emph{Proceedings of the workshop on programming logic}
+  (eds. Peter Dybjer, Bengt Nordstrom, Kent Petersson, \emph{et al}.),
+  1987. \url{https://pure.tue.nl/ws/portalfiles/portal/4318923/599592.pdf}
+
+  See also {F.3} of \emph{Selected Papers on Automath} for a revised
+  version of this manuscript.
 \item\label{corbineau-czar} Pierre Corbineau,
   ``A Declarative Language For The Coq Proof Assistant''.
   In Marino Miculan, Ivan Scagnetto, and Furio Honsell, editors, \emph{Types for Proofs and Programs, International Conference, TYPES 2007, Cividale des Friuli, Italy, May 2-5, 2007, Revised Selected Papers},
@@ -124,15 +175,21 @@ number of syllables per word''.
 \item\label{harrison:proof-style} John Harrison,
   ``Proof Style''.
   \url{https://www.cl.cam.ac.uk/~jrh13/papers/style.html}
-\item Stanislaw Ja\'skowski
+\item\label{jaskowski-suppositions} Stanis\l aw Ja\'skowski
   ``On the Rules of Suppositions in Formal Logic''.
   \emph{Studia Logica} \textbf{1} (1934) pp.5--32.
   \url{https://www.logik.ch/daten/jaskowski.pdf}
+\item\label{kamareddine-nederpelt-wtt} Fairouz Kamareddine and Rob Nederpelt,
+  ``A refinement of de Bruijn's formal language of mathematics''.
+  \emph{Journal of Logic, Language, and Information} \textbf{13}, 3 (2004), pp.287--340
+\item\label{kaliszyk-rabe-language} Cezary Kaliszyk and Florian Rabe,
+  ``A Survey of Languages for Formalizing Mathematics''.
+  \url{https://arxiv.org/abs/2005.12876}
 \item\label{lyaletski-sad} Alexander Lyaletski,
-  ``Evidence  Algorithm  Approach  to  Automated  Theorem  Proving 
+  ``Evidence  Algorithm  Approach  to  Automated  Theorem  Proving
   and SAD Systems''.
   \url{http://ceur-ws.org/Vol-2833/Paper_14.pdf}
-\item\label{matuszewski:mizar} Roman Matuszewski, Piotr Rudnicki,
+\item\label{matuszewski:mizar} Roman Matuszewski and Piotr Rudnicki,
   ``Mizar: The First 30 Years''.
   \emph{Mechanized Mathematics and Its Applications} \textbf{4}, 1 (2005) pp.3--24.
   \url{http://mizar.org/people/romat/MatRud2005.pdf}
@@ -149,11 +206,19 @@ number of syllables per word''.
   ``Isabelle/Isar --- a versatile environment for human-readable formal
   proof documents''.
   PhD thesis,
-  Institut f\"ur Informatik, Technische Universit\"at M\"unchen, 2002. 
+  Institut f\"ur Informatik, Technische Universit\"at M\"unchen, 2002.
   \url{https://mediatum.ub.tum.de/doc/601724/601724.pdf}
 \item Markus Wenzel and Free Wiedijk.
   ``A comparison of the mathematical proof languages Mizar and Isar''.
-  \emph{Journal of Automated Reasoning} \textbf{29} (2002), pp.389--411. 
+  \emph{Journal of Automated Reasoning} \textbf{29} (2002), pp.389--411.
+\item\label{wiedijk-mv} Freek Wiedijk,
+  ``The Mathematical Vernacular''.
+  Undated manuscript (available since at least 2004),
+  \url{https://www.cs.ru.nl/~freek/notes/mv.pdf}
+\item\label{wiedijk-soft-type} Freek Wiedijk,
+  ``Mizar's Soft Type System''.
+  In: K.Schneider and J.Brandt (eds.), \emph{Theorem Proving in Higher Order Logics 2007}, LNCS 4732, 383--399, 2007.
+  \url{https://cs.ru.nl/F.Wiedijk/mizar/miztype.pdf}
 \item\label{zammit:phd-thesis} Vincent Zammit,  (1999)
   ``On the Readability of Machine Checkable Formal Proofs''.
   PhD Thesis, Kent University, 1999.
