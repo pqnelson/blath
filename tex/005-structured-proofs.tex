@@ -20,7 +20,7 @@ the best of both worlds?
 \end{remark}
 
 \N{Readable Proofs}
-One of the several roles for proofs in mathematics is
+One of the roles for proofs in mathematics is
 \emph{communication}. Hence we need something analogous to the notion of
 ``readable code'' in programming: readable proofs. Consider the
 following proof, tell me what it does (no cheating!):
@@ -91,7 +91,7 @@ There are other sources worth perusing, like Zammit's ``Structured Proof
 Language''~\ref{zammit:phd-thesis} among others. We also mention Isar
 inspired many prototypes to adapt Mizar-style proofs to other theorem
 provers (Corbineau's Czar~\ref{corbineau-czar}, Giero and Wiedijk's MMode~\ref{giero-wiedijk-mmode},
-Harrison's Mizar Mode for HOL~\ref{harrison-mizar-mode})
+Harrison's Mizar Mode for HOL~\ref{harrison-mizar-mode}).
 Also worth mentioning is \textsc{ForTheL}~\ref{paskevich-forthel} which
 emerged from the Soviet SAD theorem prover~\ref{lyaletski-sad}, possibly
 a future input language for Lean.
@@ -129,14 +129,23 @@ grammar for the proof steps, leaving notions like ``term'' and
 So far, so good; but this has been predominantly first-order logic. How
 do we articulate readable proofs for type theory?
 
+\M
+We construct proof steps for a declarative proof style by assigning
+``keywords'' to rules of inference in natural deduction.
+
+The problem with trying to find a readable proof format from natural
+deduction for type theory is, well, there are a lot more inference rules
+in the calculus of constructions (as opposed to, say, first-order
+logic).
+
+The Lean4 developers have unwittingly started the road to reinventing
+lambda-typed lambda calculus, which has fewer rules and ostensibly could
+be encoded into a declarative proof style input.
+
+\M
 One \emph{linguistic} avenue may be found in de Bruijn's ``mathematical
 vernacular''~\ref{de-bruijn-vernacular}, which then evolved into
-WTT~\ref{kamareddine-nederpelt-wtt}. Another avenue would be to weaken
-existing structured proof formats, so they become independent of
-foundations (e.g., instead of writing ``$x\in\NN$'', we would write
-``$x$ be a natural number'' --- type theory provers would translate this
-into ``$x{:}\NN$'', and set theory provers would translate this into
-``$x\in\NN$'' as before).
+WTT~\ref{kamareddine-nederpelt-wtt}. 
 
 \begin{remark}[Soft typing]
 What's worth noting is de Bruijn~\ref{de-bruijn-vernacular} states
@@ -146,6 +155,36 @@ would have such things in the metalanguage.'' We now call such `high
 typing' either `soft typing'~\ref{wiedijk-soft-type}, or `semi-soft
 typing'~\ref{kaliszyk-rabe-language}.
 \end{remark}
+
+\M
+Another avenue would be to weaken existing structured proof formats, so
+they become independent of foundations (e.g., instead of writing
+``$x\in\NN$'', we would write ``$x$ be a natural number'' --- type
+theory provers would translate this into ``$x{:}\NN$'', and set theory
+provers would translate this into ``$x\in\NN$'' as before).
+
+If GNU Hurd's failures have taught us anything about engineering, it's
+that ``a bird in the hand is worth two in the bush.'' That is to say,
+it's wiser to take an \emph{existing} working framework, and modify it
+slowly until it becomes what we want.
+
+\N{Conclusion?}
+If this post seems less-than-satisfying, that's probably because I've
+only identified a problem.  No solutions have been offered. That's
+because this is a \emph{hard problem} somewhere between language design
+(very hard) and mathematical logic.  Since we lack a robust framework
+for designing languages, this is far more of an art than science.
+
+Although we have fewer than a half-dozen examples of declarative proof
+styles (really, maybe 3?), we have some avenues of exploration. But the
+design space may be much larger than we realize: we just lack the tools
+to describe it adequately.
+
+One closing thought I'd pass off, though, is that type theorists encode
+logic in a rather protracted manner. It may be that structured proofs
+for type theory would be forced to "compile down" into many more steps,
+or maybe we just haven't adequately found a way to connect type theory
+to working mathematics.
 
 \section{Bibliography}
 
