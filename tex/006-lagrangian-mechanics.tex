@@ -1,0 +1,369 @@
+\M
+We usually set up the equations of motion directly using Newton's second
+Law of motion. But we may conveniently note: many forces may be written
+as the gradient of a potential energy function $\vec{F}=-\vec{\nabla}U$.
+Then the equations of motion look like
+\begin{equation}
+m\frac{\D}{\D t}\vec{v} = -\vec{\nabla}U
+\end{equation}
+where $\vec{v}$ is the velocity vector for the body.
+
+The strategy is to derive the equations of motion from a ``generating
+function''-type object called the Lagrangian.
+
+\begin{definition}[Provisional definition --- technically incorrect]
+The \define{Lagrangian} for a point-particle is a function of its
+position $\vec{q}$ and velocity $\vec{v}$ (treated as independent
+variables) and potential energy $U(\vec{q})$ as
+\begin{equation}
+L(\vec{q},\vec{v}) := \frac{1}{2}mv^{2} - U(\vec{q}).
+\end{equation}
+(Caution: this is a provisional definition, and works only in
+Cartesian/rectangular coordinates.)
+\end{definition}
+
+\N{Euler-Lagrange Equations}
+We can now write down the equations of motion using derivatives of the
+Lagrangian. These seem a bit magical, but we will verify we can recover
+Newton's equations of motion, then discuss the derivation of these
+equations.
+
+The equations of motion are obtained from the Euler-Lagrange equations:
+\begin{equation}
+\frac{\D}{\D t}\frac{\partial L}{\partial v^{j}} - \frac{\partial L}{\partial q^{j}} = 0
+\end{equation}
+where $q^{j}$ is the $j$-component of position, $v^{j}$ is the
+$j$-component of velocity, and we stress we assume position and velocity
+are independent. So in particular, we assume
+\begin{equation}
+\frac{\partial q^{k}}{\partial v^{j}} = \frac{\partial v^{j}}{\partial q^{k}} = 0
+\end{equation}
+for all $j$, $k$.
+
+\M
+If we plug in our definition of the Lagrangian for a point-particle, we
+find
+\begin{subequations}
+\begin{align}
+\frac{\partial L}{\partial v^{j}}
+&= \frac{\partial (mv^{2}/2)}{\partial v^{j}} - \frac{\partial U(q)}{\partial v^{j}}\\
+&= \frac{\partial (mv^{2}/2)}{\partial v^{j}} - 0\\
+&= \frac{m}{2}\frac{\partial (v^{2})}{\partial v^{j}}\\
+&= \frac{m}{2}2 v^{j} = mv^{j}
+\end{align}
+\end{subequations}
+Hence the first term in the Euler-Lagrange equations gives us the
+right-hand side to Newton's second law (the ``$ma$'' part):
+\begin{equation}
+\frac{\D}{\D t}\frac{\partial L}{\partial v^{j}} =
+\frac{\D}{\D t}(m v^{j}).
+\end{equation}
+So far, so good.
+
+\M
+The other term contributes, as one might expect, the only remaining
+contribution to Newton's second law: the force term. We can compute it
+directly as
+\begin{subequations}
+\begin{align}
+\frac{\partial L}{\partial q^{j}}
+&= \frac{\partial (mv^{2}/2)}{\partial q^{j}} - \frac{\partial U(q)}{\partial q^{j}}\\
+&= 0 - \frac{\partial U(q)}{\partial q^{j}}\\
+&= -(\vec{\nabla}U)^{j}.
+\end{align}
+\end{subequations}
+This is precisely the $j$-component of the gradient of the potential energy.
+
+\N{Recovering Newton}
+When we combine our results together, we find the Euler-Lagrange
+equations for a point-particle give us
+\begin{equation}
+\frac{\D}{\D t}(m v^{j}) - (-\vec{\nabla}U)^{j} = 0.
+\end{equation}
+This is Newton's second law for a point-particle experiencing some
+``external potential''.
+
+However, we have been a bit stringent. We have defined the Lagrangian
+\emph{for a point-particle} --- specifically \emph{in Cartesian coordinates}.
+The reader may consider what the kinetic energy looks like in spherical
+coordinates; as a hint, recall
+\begin{equation}
+\D\vec{r} = \D r\,\hat{r} + r\,\D\theta\,\hat{\theta} + r\sin(\theta)\,\D\varphi\,\hat{\varphi}.
+\end{equation}
+(Divide through by $\D t$ gives the velocity vector in spherical
+coordinates.)
+In particular, the Lagrangian should be
+\begin{equation}
+L(\vec{q},\vec{v}) = K(\vec{q},\vec{v}) - U(\vec{q},\vec{v})
+\end{equation}
+the difference between the kinetic energy $K$ and potential energy
+$U$. \textbf{This is the correct definition for the Lagrangian of a\ point-particle.}
+If we work through the computation using spherical coordinates, we will
+find appropriate pseudoforce contributions computed automatically.
+
+\N{Multiple bodies}
+We can extend our definition from one point-particle to several. We just
+need to include a kinetic energy term for each point-particle, and the
+potential energy from interactions among the point-particles. The
+Euler-Lagrange equations remain the same, we just have to compute them
+for each point-particle. So, in summary, our Lagrangian will look like:
+\begin{equation}
+L = \left(\sum^{N_{\text{bodies}}}_{n=1}K(\vec{q}^{(n)},\vec{v}^{(n)})\right)
+-U(\vec{q}^{(1)},\dots,\vec{q}^{(N)},\vec{v}^{(1)},\dots,\vec{v}^{(N)})
+\end{equation}
+where all the potential energy terms are ``swept under the rug'' of the
+single term $U$.
+
+\N{Beyond Newton}
+We can use the Euler-Lagrange equations for situations where Newton's
+second Law no longer holds. For example, we can find the equations of
+motion for particles obeying special relativity with the Lagrangian
+approach.
+
+We can also generalize from one point-particle to fields, like the
+electromagnetic field or gravitation or nuclear forces. This is done in
+graduate school.
+
+\section{Derivation of Euler-Lagrange Equations}
+
+\M
+The derivation of the Euler-Lagrange equations requires use of
+``variational calculus''. Although beyond the scope of our notes, we
+should think of variational calculus as one possible way to generalize
+calculus to infinite dimensions, specifically to ``functions'' on the
+space of [continuous] paths on a given space (usually $\RR^{n}$ for
+fixed $n$).
+
+Specifically, we will consider the space of paths (on a space $E$) who
+start at the same point $\vec{q}_{0}$ and end at the same point
+$\vec{q}_{1}$. Let us denote this space by
+\begin{equation}
+C(E; \vec{q}_{0},\vec{q}_{1}) = \{\gamma\colon[0,1]\to E\mid\gamma(0)=\vec{q}_{0},\gamma(1)=\vec{q}_{1},\gamma~\mbox{continuous}\}.
+\end{equation}
+We will study \define{Functionals}, mappings of the form
+\begin{equation}
+F\colon C(E; \vec{q}_{0},\vec{q}_{1})\to\RR
+\end{equation}
+and try to do calculus with these functionals. At least differentiation
+(so as to find the critical points/``paths'' of the functional, leading
+to where it takes extreme values).
+
+How does this work? Well, recall one intuitive approach to
+differentiation is by means of ``infinitesimals'' --- non-zero numbers
+$\varepsilon>0$ such that $\varepsilon^{2}=0$. We then define the
+derivative of a function as
+\begin{equation}
+f(x + \varepsilon) = f(x) + \varepsilon f'(x) 
+\end{equation}
+the coefficient of $\varepsilon$. For multivariable calculus, we can do
+likewise, but now need to use a vector of infinitesimals and sum over
+its components
+\begin{equation}
+  \begin{split}
+f(\vec{x} + \vec{\varepsilon}) &= f(\vec{x}) + \vec{\varepsilon}\cdot\vec{\nabla}f(\vec{x})\\
+&= f(\vec{x}) + \sum^{n}_{j=1}\varepsilon^{j}\frac{\partial}{\partial x^{j}}f(\vec{x}).
+  \end{split}
+\end{equation}
+
+We pretend we can do likewise, just replace the summation with
+integrals, and have for our function $F$ its variational derivative defined by
+\begin{equation}
+F[q + \varepsilon\,\delta q] = F[q] + \int^{1}_{0}\delta
+q(t)\frac{\delta F[q]}{\delta q}\,\D t.
+\end{equation}
+Here the index variable $j$ is replaced by the continuous parameter $t$,
+the vector of infinitesimals $\vec{\varepsilon}$ is replaced by the
+``infinitesimal deformation to the path'' $\delta q$, and the vector
+$\vec{x}$ is replaced by the path $q(t)$.
+
+\N{Important: boundary contributions}
+In physics, we usually care about deformations $\delta q$ which are such
+that $(q + \delta q)(0) = q(0)$ and $(q + \delta q)(1)=q(1)$. That is to
+say, the boundary contributions from the variation must be zero. Besides
+this technical condition, the variation is completely arbitrary. 
+
+\begin{example}
+For physics, we usually care about functionals which are integrals of
+some kind. For example,
+\begin{equation}
+F[q] = \int^{1}_{0}q(t)^{2}\,\D t.
+\end{equation}
+We find then that
+\begin{subequations}
+\begin{align}
+F[q + \delta q] &= \int^{1}_{0}(q(t) + \delta q(t))^{2}\,\D t\\
+&= \int^{1}_{0}(q(t)^{2} + 2q(t)\,\delta q(t) + [\delta q(t)]^{2})\D t\\
+&= \int^{1}_{0}q(t)^{2}\,\D t + \int^{1}_{0}2q(t)\,\delta q(t)\,\D t +
+\mathcal{O}((\delta q)^{2})\\
+&= F[q] + \int^{1}_{0}2q(t)\,\delta q(t)\,\D t +
+\mathcal{O}((\delta q)^{2}).
+\end{align}
+\end{subequations}
+We throw away the higher-order terms involving quadratic orders of the
+deformation path $(\delta q)^2$ and comparing this to the definition
+given above, we find
+\begin{equation}
+\frac{\delta F}{\delta q} = 2q(t).
+\end{equation}
+\end{example}
+
+\begin{remark}
+It is important to observe the variational derivative gives us a
+\emph{function}, not a number. This is analogous to a component of a
+gradient. After all, we usually care about the \emph{variation} of a
+functional, analogous to the \emph{differential} of a function, which
+we define as
+\begin{equation}
+F[q + \delta q] = F[q] + \underbrace{\delta F[q, \delta q]}_{\text{variation}}.
+\end{equation}
+Levereging the hell out of our analogy with multidimensional calculus,
+we will consider a path $q_{cr}$ to be a ``critical path'' if, for any
+deformation $\delta q$, we have
+\begin{equation}
+F[q_{cr} + \delta q] = F[q_{cr}].
+\end{equation}
+This is completely analogous to the notion of a ``critical point''.
+\end{remark}
+
+\N{Action}
+We now have developed sufficient infrastructure to derive the
+Euler-Lagrange equations. The functional we work with is defined as the
+\define{Action}, which is just the integral of the Lagrangian
+\begin{equation}
+S[\vec{q},\vec{v}] = \int^{t_{1}}_{t_{0}}L(\vec{q},\vec{v})\,\D t
+\end{equation}
+where we have fixed (but arbitrary) endpoints
+$\vec{q}(t_{0})=\vec{q}_{0}$ and $\vec{q}(t_{1})=\vec{q}_{1}$.
+
+The Euler-Lagrange equations are derived from the action by demanding
+its variation (with respect to arbitrary deformation to the path)
+vanish. There is some subtlety here, though, specifically from using the
+time derivative of the path deformation as the deformation to the
+velocity:
+\begin{equation}
+S[\vec{q} + \delta\vec{q}, \vec{v} + \frac{\D}{\D t}\delta\vec{q}]
+= S[\vec{q},\vec{v}].
+\end{equation}
+Why on Earth should we believe this? Well, we can compute it directly
+\begin{subequations}
+\begin{align}
+S[\vec{q} + \delta\vec{q}, \vec{v} + \frac{\D}{\D t}\delta\vec{q}]
+&=\int^{t_{1}}_{t_{0}} L(\vec{q} + \delta\vec{q}, \vec{v} + \frac{\D}{\D t}\delta\vec{q})\,\D t\\
+&=\int^{t_{1}}_{t_{0}}\left(
+L(\vec{q},\vec{v}) + \sum^{n}_{j=1}\delta q^{j}\frac{\partial L(\vec{q},\vec{v})}{\partial q^{j}}
++\frac{\D}{\D t}\delta q^{j}\cdot \frac{\partial L(\vec{q},\vec{v})}{\partial v^{j}}
+\right)\,\D t\\
+&=\int^{t_{1}}_{t_{0}}L(\vec{q},\vec{v})\,\D t +
+\int^{t_{1}}_{t_{0}}\left(\sum^{n}_{j=1}\delta q^{j}\frac{\partial L(\vec{q},\vec{v})}{\partial q^{j}}
++\frac{\D}{\D t}\delta q^{j}\cdot \frac{\partial L(\vec{q},\vec{v})}{\partial v^{j}}
+\right)\,\D t
+\end{align}
+\end{subequations}
+We're half-way done.
+
+The trick is to use integration-by-parts to rewrite
+\begin{equation}
+ \int^{t_{1}}_{t_{0}}
+  \frac{\D}{\D t}\delta q^{j}\cdot \frac{\partial L(\vec{q},\vec{v})}{\partial v^{j}}\,\D t
+  = (\mbox{boundary terms}) -
+  \int^{t_{1}}_{t_{0}}
+  \delta q^{j}\cdot \frac{\D}{\D t}\frac{\partial L(\vec{q},\vec{v})}{\partial v^{j}}\,\D t.
+\end{equation}
+The boundary terms involve multiplication by $\delta q$, which vanish on
+the boundary, so we see they equal zero. We then have
+\begin{equation}
+S[\vec{q} + \delta\vec{q}, \vec{v} + \frac{\D}{\D t}\delta\vec{q}]
+=\int^{t_{1}}_{t_{0}}L(\vec{q},\vec{v})\,\D t +
+\int^{t_{1}}_{t_{0}}\sum^{n}_{j=1}\delta q^{j}\underbrace{\left(\frac{\partial L(\vec{q},\vec{v})}{\partial q^{j}}
+-\frac{\D}{\D t}\frac{\partial L(\vec{q},\vec{v})}{\partial v^{j}}
+\right)}_{\text{Euler-Lagrange equations}}\,\D t.
+\end{equation}
+If we demand the physical trajectory is a critical path, then
+necessarily the parenthetic term on the right-hand side must vanish;
+that is to say, the Euler-Lagrange equations must hold.
+Thus we have derived the Euler-Lagrange equations by finding the
+critical paths for the action functional.
+
+\N{Interpreting Lagrangian Approach}
+We should interpret the Lagrangian approach to physics as ``operating
+on'' the space of possible trajectories. We then have a ``stud detector''
+[the action functional] which tells us when a possible trajectory is
+physically realized. This is completely different than Newtonian
+physics, which works with free-body diagrams and force vectors directly.
+
+\N{Best way to study Lagrangian Mechanics}
+In my humble opinion, the best way to study Lagrangian mechanics is by
+means of several books and writing software, as well as studying
+variational calculus. Good books on the variational calculus include:
+\begin{enumerate}
+\item Gilbert Ames Bliss, \emph{Calculus of Variations}. Corus
+  Mathematical Monographs, 1925. (A very gentle introduction, useful
+  supplement to Abbelson and friends's \emph{SICM} below.)
+\item Israel Gelfand and S.V.~Fomin's
+  \emph{Calculus of Variations}. Dover publications. (This is the alpha
+  and omega text on the subject, very rigorous, Russian-style.)
+\end{enumerate}
+For Lagrangian mechanics, I enthusiastically suggest
+Gerald Jay Sussman and Jack Wisdom's \emph{Structure and Interpretation of Classical Mechanics}
+(sometimes just abbreviated as ``\emph{SICM}'')
+which works through analytical mechanics using the Scheme programming
+language. This fleshes out all the subtleties which most books skim
+over.
+
+\section{Miscellaneous Topics}
+
+\N{Constraints}
+Often, one will want to consider situations where a body may move only
+over a certain region (for example, on a sphere, where the radius is
+fixed). We handle this situation in Lagrangian mechanics by adding to
+the Lagrangian a constraint term with a Lagrange multiplier.
+
+There is a more general need to study constraints in gauge theory, which
+again lies beyond the scope of this note. Basically, symmetries may
+appear in the Lagrangian, which takes the form of redundant
+variables. But then not all variables are independent of each other, and
+these extra relations (``constraints'') occur.
+
+\N{Hamiltonian Mechanics}
+Although useful, the Lagrangian may be transformed into the
+Hamiltonian. Intuitively, this is something analogous to a ``change of
+variables'' from velocity $\vec{v}$ to momenta $\vec{p}$. We then can
+write the velocities as a function of position and momenta
+\begin{equation}
+\vec{v} = \vec{v}(\vec{q},\vec{p})
+\end{equation}
+and the Hamiltonian is then defined using the Legendre transform
+\begin{equation}
+  \begin{split}
+  H(\vec{q},\vec{p}) &= \vec{p}\cdot\vec{v}(\vec{q},\vec{p})
+  - L(\vec{q}, \vec{v}(\vec{q},\vec{p}))\\
+  &= K(\vec{q}, \vec{v}(\vec{q},\vec{p})) + U(\vec{q}, \vec{v}(\vec{q},\vec{p})).
+  \end{split}
+\end{equation}
+For non-relativistic physics, the Hamiltonian is precisely the total
+energy of the system. Hence, for conservative forces, the Hamiltonian is
+constant. Geometrically, this means we work on a subspace of the
+\define{Phase Space} --- the $6N$-dimensional mathematical space
+describing the configuration of bodies by their possible positions and
+momenta.
+
+There's a lot more that could be said of Hamiltonian mechanics. Not only
+can we derive the equations of motion similarly, but there's an entirely
+new ``mathematical apparatus'' called the Poisson bracket. This is a
+sort of mapping which eats two functions on the phase space, and
+produces a new function on the phase space. If we fix the first argument
+to be the Hamiltonian, then it gives us the time derivative of the
+second argument. There is a lot which may be said of the Poisson
+bracket, since we could use it to study symmetry transformations (which
+is done in the Hamiltonian formulation of gauge theory, relating the
+study of Lie algebras to mechanics).
+
+\N{Fields}
+Physical fields may be studied using Lagrangian mechanics. Greiner's
+book on quantum field theory works through the derivations very
+carefully and explicitly. Basically, we can consider a scalar field as a
+system of point-masses connected by means of springs. Take the continuum
+limit of the number of point-masses, and we obtain a scalar field (like
+temperature). We can do something analogous for the electromagnetic
+4-potential, and any field. This is studied in graduate school, usually
+in quantum field theory courses.
