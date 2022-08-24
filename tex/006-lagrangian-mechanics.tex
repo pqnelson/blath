@@ -1,3 +1,10 @@
+\title{Summary of Lagrangian Mechanics}
+\author{Alex Nelson\footnote{Email: \texttt{pqnelson@gmail.com}\qquad
+  Updated: \today}}
+\date{August 22, 2022}
+\maketitle
+
+\section{Deriving Newton's Laws of Motion}
 \M
 We usually set up the equations of motion directly using Newton's second
 Law of motion. But we may conveniently note: many forces may be written
@@ -59,6 +66,32 @@ right-hand side to Newton's second law (the ``$ma$'' part):
 \frac{\D}{\D t}(m v^{j}).
 \end{equation}
 So far, so good.
+
+\begin{remark}[Generalized momentum]
+We define the quantity
+\begin{equation}
+p_{j} := \frac{\partial L}{\partial v^{j}}
+\end{equation}
+to be the \define{Generalized Momentum} (or \define{Conjugate Momentum})
+associated to the position variable $q^{j}$.
+\end{remark}
+
+\begin{remark}[Indices, upstairs and downstairs]
+It may appear seemingly random when an index is superscripted
+(``upstairs'') like position $q^{j}$, or when an index is subscripted
+(``downstairs'') like momentum $p_{j}$. Although beyond the scope of
+these notes, they encode how the quantity behaves under a change of
+coordinates: do we multiply by the Jacobian matrix or the inverse matrix?
+It coincidentally allows for using Einstein summation
+convention\footnote{Quantum physicists blunder this elegant convention
+with their obtuse Euclidean summation convention, where any repeated
+indices are summed over, the distinction between upstairs and downstairs
+becomes irrelevant, and confusion reigns supreme.}, where
+an index which appears upstairs in one quantity --- when multiplied by a
+quantity with the same index appearing downstairs --- results in an
+implicit sum over that index; e.g., $v^{j}p_{j} = \sum_{j}v^{j}p_{j}$.
+We will be explicit about sums in our notes.
+\end{remark}
 
 \M
 The other term contributes, as one might expect, the only remaining
@@ -146,7 +179,9 @@ F\colon C(E; \vec{q}_{0},\vec{q}_{1})\to\RR
 \end{equation}
 and try to do calculus with these functionals. At least differentiation
 (so as to find the critical points/``paths'' of the functional, leading
-to where it takes extreme values).
+to where it takes extreme values). \textbf{Notation:} if $F$ is a
+functional, then we write $F[\varphi]$ with square brackets to emphasize
+it's a functional (as opposed to using parentheses).
 
 How does this work? Well, recall one intuitive approach to
 differentiation is by means of ``infinitesimals'' --- non-zero numbers
@@ -310,19 +345,99 @@ which works through analytical mechanics using the Scheme programming
 language. This fleshes out all the subtleties which most books skim
 over.
 
+On the physics side, there are no \textbf{good} books, I am afraid. The
+standard textbooks recommended (each with positive and negative
+qualities):
+\begin{enumerate}
+\item John Taylor, \emph{Classical Mechanics}. (Spends first quarter of
+the book reviewing Newtonian mechanics, the second quarter on Lagrangian
+mechanics, and the last half on ``further topics''.)
+\item Herbert Goldstein, \emph{Classical Mechanics}. Be sure to get
+the \textbf{Second edition}, which discusses rotational mechanics using spinors.
+\item Hand and Finch, \emph{Analytical Mechanics}. CUP. (This was used
+at UC Davis for a while; assumes reader has worked through something
+like Kleppner and Kolenkow's \emph{Introduction to Mechanics}.)
+\item Landau and Lifshitz, \emph{Mechanics}. (Derives physics from
+``first principles'', stipulating the principle of stationary action
+$\delta S=0$ determines physical paths. Extraordinarily elegant, terse, beautiful.)
+\end{enumerate}
+Sometimes Arnold's \emph{Mathematical Methods for Classical Mechanics}
+is added, more as a joke; it's a beautiful book, for graduate-level
+mathematicians, who want to learn more about classical mechanics in
+terms that a mathematician can understand.
+
+\begin{remark}[On writing software]
+When I say, ``Writing software'', I have in mind writing a library in
+some Lisp (any Scheme is fine) which allows you to write code which
+resembles the equations you are evaluating. For example,
+\begin{Verbatim}
+(integrate (lambda (x) ...) :d x :from 0 :to 1)
+\end{Verbatim}
+Such code may be found in Sussman and Wisdom's book. Its implementation
+details are not adequately discussed, so a good book on numerical
+analysis may be fruitful (e.g., Burden and Faires's \emph{Numerical Analysis}).
+
+Lisp allows you to implement your own programming language, in the sense
+that: after you have transformed input into an abstract syntax tree,
+that tree is a Lisp S-expression. Lisp ``jumps the queue'' to that
+point, the exciting part where you implement your own nontrivial bits of
+the language. This is where macros come in: a Lisp macro extends the
+``pool of primitive parts'' to the language.
+
+You should write semantic code to the effect of ``\verb#(variation functional)#''
+or whatever. When in doubt about naming things,
+consult \emph{Mathematica} and see what it does. Half the
+time, \emph{Mathematica} has a sensible approach; the other half, it's
+so obviously terrible, you have a good clue ``what not to do''.
+
+Also, be sure to write unit tests (which act as examples for how to use
+the code \emph{and} as regression ``safe guards'' to ensure the
+functions behave as expected), documentation strings, add contracts to
+enforce assumptions, and so on.
+
+I cannot recommend enough the books Gerald Jay Sussman has written,
+from \emph{Structure and Interpretation of Computer Programs} to his
+most recent \emph{Software Design for Flexibility}.
+\end{remark}
+
 \section{Miscellaneous Topics}
 
 \N{Constraints}
 Often, one will want to consider situations where a body may move only
 over a certain region (for example, on a sphere, where the radius is
 fixed). We handle this situation in Lagrangian mechanics by adding to
-the Lagrangian a constraint term with a Lagrange multiplier.
+the Lagrangian a constraint term with a Lagrange multiplier. The
+Lagrangian then looks like:
+\begin{equation}
+L(\vec{q},\vec{v}) = K(\vec{q},\vec{v}) - V(\vec{q},\vec{v}) + \lambda f(\vec{q}).
+\end{equation}
+The variation of the action then becomes
+\begin{equation}
+\int^{t_{2}}_{t_{1}}\delta L(\vec{q},\vec{v})\,\D t
+= \int^{t_{2}}_{t_{1}}\sum^{n}_{k=0}\left(
+\frac{\partial L}{\partial q^{k}}
+\frac{\D}{\D t}\frac{\partial L}{\partial v^{k}}
++ \lambda\frac{\partial f}{\partial q^{k}}
+\right)\delta q^{k}\,\D t.
+\end{equation}
+We can add as many constraints as we would like, we just need to
+multiply by a distinct Lagrange multiplier:
+\begin{equation}
+L(\vec{q},\vec{v}) = K(\vec{q},\vec{v}) - V(\vec{q},\vec{v}) + \sum^{C}_{j=0}\lambda_{j} f_{j}(\vec{q}).
+\end{equation}
+The equations of motion generalize accordingly.
 
 There is a more general need to study constraints in gauge theory, which
 again lies beyond the scope of this note. Basically, symmetries may
 appear in the Lagrangian, which takes the form of redundant
 variables. But then not all variables are independent of each other, and
 these extra relations (``constraints'') occur.
+
+\N{Rotational Mechanics}
+Although I neglected to mention this fact, it is true Lagrangian
+mechanics is coordinate independent. This is useful when dealing with
+rotational mechanics. Every textbook belabours this point, so I just
+mention it in passing.
 
 \N{Hamiltonian Mechanics}
 Although useful, the Lagrangian may be transformed into the
@@ -356,7 +471,77 @@ to be the Hamiltonian, then it gives us the time derivative of the
 second argument. There is a lot which may be said of the Poisson
 bracket, since we could use it to study symmetry transformations (which
 is done in the Hamiltonian formulation of gauge theory, relating the
-study of Lie algebras to mechanics).
+study of Lie algebras to mechanics). The best/only textbook on this is
+Henneaux and Teitelboim's \emph{Quantization of Gauge Systems}; the
+first dozen chapters (or so) are purely about studying gauge symmetries
+of classical systems.
+
+\N{Geometry of Mechanics}
+We can meaningfully study the geometry of Lagrangian (and especially
+Hamiltonian) mechanics. This is a rich field of differential geometry,
+called \define{Symplectic Geometry}. It's especially beautiful, and well
+beyond the scope of our note. Here we study the geometry of the phase
+space (the $6N$-dimensional mathematical space of positions and
+momenta), and various gadgets useful for doing physics. Symplectic
+geometry tends to ``eat itself'', as most fields do, making direct
+connections to physical problems opaque at times.
+
+But we can use symplectic geometry to leverage quite a bit of
+information when quantizing systems. In fact, we have an entirely
+geometric route to quantization! This may be found in the
+comprehensive textbook \emph{Geometric Quantization} by Woodehouse.
+
+\N{Miscellaneous Analytical Mechanics}
+There are other avenues of study, within analytical mechanics, once we
+have established the Hamiltonian formalism. For example, we can consider
+different coordinates (which may be useful for different families of
+physical problems).
+
+The Hamilton--Jacobi equation works in a set of coordinates where the
+momentum variables are replaced by partial derivatives with respect to
+the action:
+\begin{equation}
+p_{j} = \frac{\partial S(\vec{q},t)}{\partial q^{j}}.
+\end{equation}
+How on Earth is this possible? We are a bit sloppy here, to be frank; we
+should have written
+\begin{equation}
+S(\vec{q},t;\vec{q}_{0},t_{0}) = \int^{t}_{t_{0}} L(\gamma(\tau;\cdot),
+\dot{\gamma}(\tau;\cdot))\,\D\tau
+\end{equation}
+where $\gamma=\gamma(\tau;t,t_{0},\vec{q},\vec{q}_{0})$ is a trajectory
+such that $\gamma|_{\tau=t_{0}}=\vec{q}_{0}$ and $\gamma|_{\tau=t}=\vec{q}$.
+Here $\dot\gamma$ is the time-derivative (with respect to $\tau$) of
+this $\gamma$. Also note we use parentheses $S(\dots)$ because the
+action is now a function, not a functional. We then have the
+Hamilton--Jacobi equation 
+\begin{equation}
+-\frac{\partial S}{\partial t} = H\left(\vec{q},\frac{\partial S}{\partial\vec{q}},t\right).
+\end{equation}
+This is a first-order, nonlinear partial differential equation.
+
+There are other, more exotic approaches to analytical
+mechanics. Routhian mechanics is a famous one, a hybrid of Lagrangian
+and Hamiltonian mechanics. Valdmir Arnold discusses them extensively in
+his confusingly entitled book \emph{Mathematical aspects of classical and celestial mechanics},
+which should not be mistaken for his other book \emph{Mathematical Aspects of Classical Mechanics}.
+
+\N{Continuum Mechanics}
+The final direction I will mention briefly, if instead of considering a
+point particle (or a system of finitely many point-particles), what if
+we consider taking the continuum limit and describe a \emph{region} (for
+example, a pencil eraser)? This gives us continuum mechanics, which
+covers fluid mechanics and elastic bodies. Usually these fields are
+taught in the engineering departments, and closely coupled with
+finite-element numerical methods\footnote{Finite-element methods usually
+take some choice of basis functions for the space of functions
+containing the solution to a particular PDE, then ``truncates'' the set
+of basis functions to a particular order. Then an approximate solution
+may be obtained as a linear combination of the ``truncated set'' of
+basis functions, and the partial differential equation becomes either a
+linear equation or an algebraic equation.}.
+This is particularly challenging, and I know no good text for continuum
+mechanics \emph{in general}, from the analytical mechanics perspective.
 
 \N{Fields}
 Physical fields may be studied using Lagrangian mechanics. Greiner's
@@ -366,4 +551,6 @@ system of point-masses connected by means of springs. Take the continuum
 limit of the number of point-masses, and we obtain a scalar field (like
 temperature). We can do something analogous for the electromagnetic
 4-potential, and any field. This is studied in graduate school, usually
-in quantum field theory courses.
+in quantum field theory courses. There are few good texts on the subject
+of classical field theory, Walter Thirring's \emph{Classical Mathematical Physics}
+is an excellent one.
