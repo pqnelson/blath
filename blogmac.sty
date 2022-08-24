@@ -6,6 +6,7 @@
 \usepackage{manfnt}
 \usepackage{fancyvrb}
 \newcounter{chunk@ctr}
+\usepackage{ifpdf}
 \usepackage[dvipsnames]{xcolor}
 \usepackage[colorlinks=true,
   linkcolor=BrickRed,
@@ -13,7 +14,8 @@
   filecolor=BrickRed,
   urlcolor=BrickRed,
   runcolor=BrickRed,
-  dvipdfmx]{hyperref}
+  \ifpdf\else dvipdfmx\fi
+]{hyperref}
 
 
 \usepackage{titlesec}
