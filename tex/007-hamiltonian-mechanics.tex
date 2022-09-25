@@ -1,0 +1,602 @@
+\title{Summary of Hamiltonian Mechanics}
+\author{Alex Nelson\footnote{Email: \texttt{pqnelson@gmail.com}\qquad
+  Updated: \today}}
+\date{September 10, 2022}
+\maketitle
+
+\section{Introduction}
+
+\N{Starting point: Lagrangian mechanics}
+We recall Lagrangian mechanics starts with a Lagrangian
+$L(q^{1},\dots,q^{n},v^{1},\dots,v^{n})$ which is a function of $2n$
+variables ($n$ position variables $q^{j}$ and associated with them some
+$n$ velocity variables $v^{j}$). The Euler--Lagrange equations of motion
+are then given by:
+\begin{equation}
+\frac{\D}{\D t}\frac{\partial L}{\partial v^{j}} - \frac{\partial L}{\partial q^{j}} = 0
+\end{equation}
+where $j=1,\dots,n$. This is completely equivalent to the Newtonian
+equations of motion. We can see this by writing
+\begin{equation}
+p_{j} := \frac{\partial L}{\partial v^{j}},
+\end{equation}
+which is the \define{Conjugate Momentum} (or \emph{generalized momentum},
+and later \emph{canonical momentum}). Then
+\begin{equation}
+\frac{\D}{\D t}p_{j} - \frac{\partial L}{\partial q^{j}} = 0
+\end{equation}
+which is precisely Newton's second Law.
+
+\M
+Only now, after we get the equations of motion, do we replace all
+instances of $q^{j}$ with components of a trajectory $\gamma(t)^{j}$ and
+$v^{j}$ with its first time derivative $\dot\gamma(t)^{j}$. The
+important point being we only do this after plugging in our Lagrangian
+into the Euler--Lagrange equation of motion, and doing the partial
+derivatives.
+
+Then we end up with a second-order differential equation, which is hard,
+and forces us to rue the day we ever attempted this endeavour. We
+naturally ask: \emph{can we avoid second-order differential equations?}
+
+\section{Hamiltonian Mechanics}
+
+\M
+I am torn between discussing Hamiltonian mechanics \emph{conceptually},
+and just giving the steps involved in ``using Hamiltonian mechanics''.
+In either case, we begin with Lagrangian mechanics as the starting
+point. When doing Hamiltonian mechanics, we have already written down a
+Lagrangian $L(\vec{q},\vec{v})$.
+
+We can think of the Lagrangian as a function on the phase space --- a
+hypothetical, mathematical space describing all possible ``physical
+states'' of the system. But Lagrangian mechanics labels the coordinates
+of this ``phase space'' using the positions $\vec{q}$ and velocities $\vec{v}$.
+\emph{Besides this, the physical intuition remains the same as with Lagrangian mechanics.}
+Among all possible trajectories, we are trying to find the ones which
+are physically realizable.
+
+We can therefore ``piggieback'' off all the hard work with Lagrangian
+mechanics, the variational derivation of the equations of motion, then
+make some last minute changes to pivot to the ``new coordinates'' of the
+phase space. This is how most textbooks introduce Hamiltonian mechanics.
+The flaw with this approach: we require velocities to be variables at
+certain times, but at other times we require it to be a function of
+position and momentum. It will appear random and unmotivated.
+
+The other approach is slightly worse: introduce a new gadget called the
+Poisson bracket, and use it to obtain the equations of motion.
+
+\N{Step one: determine conjugate momentum}
+We write down the conjugate momentum
+\begin{equation}
+p_{j}(\vec{q},\vec{v}) := \frac{\partial L(\vec{q},\vec{v})}{\partial v^{j}}.
+\end{equation}
+Right now, we think of it as just another collection of $n$ functions on
+phase space.
+
+\N{Step two: change coordinates}
+We then change coordinates from $(\vec{q},\vec{v})$ to
+$(\vec{q},\vec{p})$ using position and momenta. Usually this is
+possible. We check by taking the determinant of the Jacobian matrix
+\begin{equation}
+\det(\partial p_{i}(\vec{q},\vec{v})/\partial v^{j})\neq0.
+\end{equation}
+But there are times when the determinant of the Jacobian matrix equals
+zero. This means there is some redundancy in the definition of momenta.
+The solution is to introduce extra conditions called \define{Primary Constraints}
+$\phi_{m}(\vec{q},\vec{p})=0$. This is rather complicated, the idea
+being these constraints are used as coordinates to describe the rest of
+the phase space. The curious reader may consult Henneaux and
+Teitelboim's \emph{Quantization of Gauge Systems} (the first chapter
+alone suffices).
+
+But at the end of this step, we should have obtained the velocities as a
+function of positions and momenta
+\begin{equation}
+v^{j} := v^{j}(\vec{q},\vec{p}).
+\end{equation}
+
+\N{Step three: construct the Hamiltonian}
+We may then construct the Hamiltonian using the Legendre transform:
+\begin{equation}\label{eq:hamiltonian-def}
+H(\vec{q},\vec{p}) = \left(\sum^{n}_{j=1}p_{j}v^{j}(\vec{q},\vec{p})\right) - L(\vec{q},\vec{v}(\vec{q},\vec{p})).
+\end{equation}
+This plays the same role in Hamiltonian mechanics as the Lagrangian
+plays in Lagrangian mechanics. There may be explicit time dependence, in
+which case
+\begin{equation}
+H(\vec{q},\vec{p},t) = \left(\sum^{n}_{j=1}p_{j}v^{j}(\vec{q},\vec{p})\right) - L(\vec{q},\vec{v}(\vec{q},\vec{p}),t).
+\end{equation}
+
+\begin{exercise}
+Prove, if $L=K-U$ the Lagrangian is just the difference between the
+kinetic energy $K$ and potential energy $U$, then $H=K+U$ the
+Hamiltonian is the total energy.
+\end{exercise}
+
+\N{Deriving the equations of motion}
+There are two ways to derive the equations of motion for Hamiltonian
+mechanics. The first is to algebraically manipulate the definition of
+the Hamiltonian in Eq~\eqref{eq:hamiltonian-def} to write
+\begin{equation}
+L(\vec{q},\vec{v}(\vec{q},\vec{p})) = \left(\sum^{n}_{j=1}p_{j}v^{j}(\vec{q},\vec{p})\right) - H(\vec{q},\vec{p}).
+\end{equation}
+We plug this into the action integral, apply the principle of stationary
+action, then compare the coefficients of $\delta q$ and $\delta p$. Then
+we can infer what the Euler--Lagrange equations should be in terms of
+Hamiltonians.
+
+This is messy, somewhat unmotivated, and error prone. A slicker
+approach: we write the Hamiltonian as a function of positions, velocities, and
+momenta variables (all independent of each other):
+\begin{equation}
+H(\vec{q},\vec{v},\vec{p}) = \vec{v}\cdot\vec{p} - L(\vec{q},\vec{v}).
+\end{equation}
+Then we have
+\begin{equation}
+v^{j} = \frac{\partial H}{\partial p^{j}}
+\end{equation}
+which we replace the left-hand side with the time-derivative of
+position, and any instances of velocity in the right-hand side with the functions
+$v^{j}(\vec{q},\vec{p})$ to get the equations of motion for positions,
+\begin{subequations}\label{eq:cheat:eom}
+\begin{equation}
+\frac{\D}{\D t}q^{j} = \frac{\partial H(\vec{q},\vec{p})}{\partial p_{j}},
+\end{equation}
+and from Euler--Lagrange we obtain the equations of motion for momenta,
+\begin{equation}
+\frac{\D}{\D t}p_{j} = -\frac{\partial H(\vec{q},\vec{p})}{\partial q^{j}}.
+\end{equation}
+\end{subequations}
+Now, as with Lagrangian mechanics, we make the positions and momenta
+some unknown functions of time, then Eq~\eqref{eq:cheat:eom} give us our
+equations of motion as first-order differential equations.
+
+
+\begin{exercise}
+  For one-dimensional simple Harmonic oscillator, we have
+  \begin{equation}
+H = \frac{1}{2m}p^{2} + \omega^{2}q^{2}.
+  \end{equation}
+Determine the equations of motion and solve them.
+\end{exercise}
+
+\begin{remark}
+One of the hallmarks of analytical mechanics is this seemingly arbitrary
+decision to treat quantities as independent variables, and other times
+as functions of the other variables. This sadly cannot be avoided, and
+only becomes understandable after working with them for a long time.
+\end{remark}
+
+\N{Poisson Bracket}
+The other approach is less motivated but more elegant. We introduce a
+mathematical gadget called the \define{Poisson Bracket}. We define it as
+operating on two functions on the phase space $f$ and $g$ by the equation:
+\begin{equation}
+  \{f(\vec{q},\vec{p}), g(\vec{q},\vec{p})\}
+  := \sum_{j}\frac{\partial f(\vec{q},\vec{p})}{\partial q^{j}}\frac{\partial g(\vec{q},\vec{p})}{\partial p_{j}}
+  -\frac{\partial g(\vec{q},\vec{p})}{\partial q^{j}}\frac{\partial f(\vec{q},\vec{p})}{\partial p_{j}}.
+\end{equation}
+This seems useless, right? Well, look at Eq~\eqref{eq:cheat:eom} again.
+What happens if we plug in $f=H$ to the Poisson bracket? We get:
+\begin{equation}
+  \{H(\vec{q},\vec{p}), g(\vec{q},\vec{p})\}
+  = \sum_{j}\frac{\partial H(\vec{q},\vec{p})}{\partial q^{j}}\frac{\partial g(\vec{q},\vec{p})}{\partial p_{j}}
+  -\frac{\partial g(\vec{q},\vec{p})}{\partial q^{j}}\frac{\partial H(\vec{q},\vec{p})}{\partial p_{j}}.
+\end{equation}
+If we then make $g$ just a component of position $q^{i}$, then we get
+\begin{subequations}
+\begin{align}
+  \{H(\vec{q},\vec{p}), q^{i}\}
+  &= \sum_{j}\frac{\partial H(\vec{q},\vec{p})}{\partial q^{j}}\frac{\partial q^{i}}{\partial p_{j}}
+  -\frac{\partial q^{i}}{\partial q^{j}}\frac{\partial H(\vec{q},\vec{p})}{\partial p_{j}}\\
+  &= \sum_{j}\frac{\partial H(\vec{q},\vec{p})}{\partial q^{j}}0
+  -{\delta^{i}}_{j}\frac{\partial H(\vec{q},\vec{p})}{\partial p_{j}}\\
+  &= -\frac{\partial H(\vec{q},\vec{p})}{\partial p_{i}}.
+\end{align}
+\end{subequations}
+This is precisely the equation of motion for position:
+\begin{equation}
+\frac{\D}{\D t}q^{i} = -\{H(\vec{q},\vec{p}), q^{i}\}.
+\end{equation}
+We may perform similar computation to find the Poisson bracket of the
+Hamiltonian with momenta gives us the equations of motion for momentum
+\begin{equation}
+\frac{\D}{\D t}p_{i} = -\{H(\vec{q},\vec{p}), p_{i}\}.
+\end{equation}
+The astute reader will realize
+\begin{equation}
+\{f(\vec{q},\vec{p}), g(\vec{q},\vec{p})\}
+=-\{g(\vec{q},\vec{p}), f(\vec{q},\vec{p})\}.
+\end{equation}
+We can use this to rewrite the equations of motion with the Hamiltonian
+in the second slot, and no minus signs needed.
+
+\begin{definition}
+We call coordinates $q_{i}$, $p_{j}$ on the phase
+space \define{Canonical Coordinates} (or \emph{Darboux coordinates}) if,
+for any $i$, $j$, we have:
+\begin{subequations}
+\begin{align}
+\{q^{i}, q^{j}\} &= 0\\
+\{p_{i}, p_{j}\} &= 0\\
+\{q^{i}, p_{j}\} &= {\delta^{i}}_{j}
+\end{align}
+\end{subequations}
+where ${\delta^{i}}_{j}=0$ if $i\neq j$ and ${\delta^{i}}_{j}=1$ when $i=j$
+(i.e., it's the Kronecker delta).
+\end{definition}
+
+\begin{remark}
+There is a theorem, due to Darboux, establishing for any
+finite-dimensional phase space, there always exists locally (i.e.,
+within a patch diffeomorphic to an open ball) canonical coordinates.
+This theorem fails to hold for field theories. Further, the phase space
+may be covered by such patches with Darboux coordinates.
+\end{remark}
+
+\M
+More generally, we have the equations of motion for any function $F$ of
+the phase space be given by its Poisson bracket with the Hamiltonian:
+\begin{equation}\label{eq:eom-from-poisson-bracket}
+\frac{\D}{\D t}F = \{F, H\}.
+\end{equation}
+This gives us the equations of motion \emph{for any quantity}. If $F$
+explicitly depends on time --- i.e., looks like $F(\vec{q},\vec{p},t)$
+--- then the equations of motion look like:
+\begin{equation}
+\frac{\D}{\D t}F = \{F, H\} + \frac{\partial F}{\partial t}.
+\end{equation}
+When $F$ does not have explicit time dependence, the partial derivative
+with respect to time vanishes, recovering Eq~\eqref{eq:eom-from-poisson-bracket}.
+
+We also avoid this tedium of ``pretend velocities are variables, do this
+calculation, now pretend the velocities are functions of momenta''.
+Instead, we can jump from writing down the Hamiltonian straight to the
+equations of motion.
+
+\begin{exercise}
+Prove the Poisson bracket is antisymmetric; i.e., for any phase-space
+functions $f$ and $g$,
+\begin{equation*}
+\{f,g\} = -\{g,f\}.
+\end{equation*}
+\end{exercise}
+
+\begin{exercise}[Jacobi Identity]
+For any phase space functions $f$, $g$, $h$, prove:
+\begin{equation*}
+\{f,\{g,h\}\} + \{g,\{h,f\}\} + \{h,\{f,g\}\} = 0.
+\end{equation*}
+This is called the \define{Jacobi Identity}. Together with the previous
+exercise, we have proven the set of functions on the same phase space
+--- when equipped with the Poisson bracket --- form a Lie algebra.
+\end{exercise}
+
+\begin{exercise}
+  For one-dimensional simple Harmonic oscillator, we have
+  \begin{equation}
+H = \frac{1}{2m}p^{2} + \omega^{2}q^{2},
+  \end{equation}
+  where $g>0$ is constant.
+Compute the Poisson bracket $\{-,H\}$ leaving the first slot free.
+\end{exercise}
+
+\begin{exercise}
+  For one-dimensional gravitational well, let $g>0$ be constant, we have
+  \begin{equation}
+H = \frac{1}{2m}p^{2} + \frac{g}{q}.
+  \end{equation}
+Compute the Poisson bracket $\{-,H\}$ leaving the first slot free.
+\end{exercise}
+
+\subsection{Sketches of Variational Arguments}
+
+\N{NOTE/CAUTION} We will be using Einstein summation convention here,
+so if an index appears once upstairs and once downstairs, we sum over it.
+We will also treat the variation $\delta$ operator as a differential
+operator (the technical word is \emph{linear derivation}). Physicists
+will be comfortable here, mathematicians may experience some discomfort.
+
+
+
+\begin{theorem}\label{thm:Hamiltonian-depends-on-p-and-q}
+The variation of the Hamiltonian is a linear combination of variations
+in momentum and position; in particular,
+\begin{equation}\label{eq:variation-of-H}
+\delta H = v^{j}\cdot\delta p_{j} - \frac{\partial L}{\partial q^{j}}\delta q^{j}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+  We find this directly by:
+  \begin{subequations}
+    \begin{align}
+\delta H
+&= \delta(v^{j}p_{j} - L)\\
+&= p_{j}\cdot\delta v^{j} + v^{j}\cdot\delta p_{j} -
+\left(\frac{\partial L}{\partial q^{j}}\delta q^{j} + \frac{\partial L}{\partial v^{j}}\delta v^{j}\right)\\
+&= \left(p_{j} - \frac{\partial L}{\partial v^{j}}\right)\delta v^{j}
++ v^{j}\cdot\delta p_{j} - \frac{\partial L}{\partial q^{j}}\delta q^{j}\\
+&= (0)\delta v^{j} + v^{j}\cdot\delta p_{j} - \frac{\partial L}{\partial q^{j}}\delta q^{j}\\
+&= v^{j}\cdot\delta p_{j} - \frac{\partial L}{\partial q^{j}}\delta q^{j}.
+    \end{align}
+  \end{subequations}
+Hence there is no way for $\delta v^{j}$ to enter, implying $H=H(q,p)$
+is a function of positions and momenta.
+\end{proof}
+
+
+\begin{lemma}\label{lemma:variation-of-kinetic-contribution}
+  The variation of the kinetic term $v^{j}p_{j}$ may be written as:
+  \begin{equation}
+\delta(v^{j}p_{j}) = v^{j}\cdot\delta p_{j} -\frac{\partial L}{\partial q^{j}}\delta q^{j}.
+  \end{equation}
+\end{lemma}
+
+\begin{proof}
+  We can see this by first using the product rule
+    \begin{equation}
+\delta(v^{j}p_{j}) = v^{j}\cdot\delta p_{j} + p_{j}\cdot\delta v^{j}.
+  \end{equation}
+Then we use the fact this will appear in an integral, so we can do the
+following dodgy physicist's trick: replace $\delta v^{j}$ with the time
+derivative of $\delta q^{j}$, then
+integrate by parts and (per tradition of physicists) ignore the boundary
+term to get
+\begin{equation}
+p_{j}\cdot\delta v^{j} = -\frac{\D p_{j}}{\D t}\delta q^{j}.
+\end{equation}
+We rewrite the right-hand side using the Euler-Lagrange equations as
+\begin{equation}
+\frac{\D p_{j}}{\D t}\delta q^{j} = \frac{\partial L}{\partial q^{j}}\delta q^{j}.
+\end{equation}
+Then putting things back together, we get
+\begin{equation}
+\delta(v^{j}p_{j}) = v^{j}\cdot\delta p_{j} - \frac{\partial L}{\partial q^{j}}\delta q^{j}.
+\end{equation}
+This proves the result.
+\end{proof}
+
+
+\begin{theorem}
+  The variation of the Lagrangian, in canonical coordinates, is given by
+  \begin{equation}
+\delta L = \left(\frac{\partial H}{\partial p_{j}}-v^{j}\right)\delta p_{j} -
+\left(\frac{\partial H}{\partial q^{j}} + \frac{\partial L}{\partial q^{j}}\right)\delta q^{j}.
+  \end{equation}
+\end{theorem}
+
+\begin{proof}
+  We begin by observing
+  \begin{equation}
+L = v^{j}p_{j} - H.
+  \end{equation}
+  Then we find
+  \begin{equation}
+\delta L = \delta(v^{j}p_{j} - H).
+  \end{equation}
+  We use Theorem~\ref{thm:Hamiltonian-depends-on-p-and-q} and take the variation of the Hamiltonian as a linear combination of
+  variations in position and momentum:
+  \begin{equation}
+\delta H = \frac{\partial H}{\partial p_{j}}\delta p_{j} +
+\frac{\partial H}{\partial q^{j}}\delta q^{j}.
+  \end{equation}
+  Then using Lemma~\ref{lemma:variation-of-kinetic-contribution}, we find
+  \begin{equation}
+\delta(v^{j}p_{j}) =  v^{j}\cdot\delta p_{j} -\frac{\partial L}{\partial q^{j}}\delta q^{j}.
+  \end{equation}
+  Combining these two results, we find:
+  \begin{subequations}
+ \begin{align}
+\delta L &= v^{j}\cdot\delta p_{j} -\frac{\partial L}{\partial
+  q^{j}}\delta q^{j} - \left(\frac{\partial H}{\partial p_{j}}\delta p_{j} +
+\frac{\partial H}{\partial q^{j}}\delta q^{j}\right)\\
+&= \left(v^{j} - \frac{\partial H}{\partial p_{j}}\right)\delta p_{j} +
+\left(-\frac{\partial L}{\partial q^{j}}-\frac{\partial H}{\partial q^{j}}\right)\delta q^{j}.
+ \end{align}
+  \end{subequations}
+  This proves the claim.
+\end{proof}
+
+
+\begin{corollary}[Equations of motion]
+The fundamental lemma of variational calculus implies the variation of
+the action vanishes only when $\delta L$ vanishes, which requires the
+coefficients of $\delta q^{j}$ and $\delta p_{j}$ independently must
+vanish. This gives us the equations
+\begin{equation}
+v^{j} = \frac{\D}{\D t}q^{j} = \frac{\partial H}{\partial p_{j}}
+\end{equation}
+(i.e., the equation of motion for $q^{j}$) and
+\begin{equation}
+\frac{\D}{\D t}p_{j} = \frac{\partial L}{\partial q^{j}}=-\frac{\partial H}{\partial q^{j}}
+\end{equation}
+(i.e., the equation of motion for $p_{j}$).
+\end{corollary}
+
+\M
+We may confer with Eq~\eqref{eq:cheat:eom} to find, in fact, we have
+obtained the equations of motion. This Kabuki theater may be
+unenlightening, but it demonstrates the care which must be considered
+when performing variational calculus in the Hamiltonian formalism. Also
+notice, we did needless computation. We could have jumped straight from
+Theorem~\ref{thm:Hamiltonian-depends-on-p-and-q} to the equations of
+motion by taking
+\begin{equation}
+\delta H = \frac{\partial H}{\partial p_{j}}\delta p_{j} +
+\frac{\partial H}{\partial q^{j}}\delta q^{j},
+\end{equation}
+then comparing the coefficients of $\delta q^{j}$ and $\delta p_{j}$.
+On the other hand, this can be used as a \emph{consistency result},
+a way to evaluate our theorems and corollary, to make sure they make
+sense.
+
+\subsection{So What?}
+
+\M
+There is this lingering air of \emph{a result has been proven but its significance seems elusive}.
+In short, we care because we can obtain a description of a physical
+system which is consistent with our other ways to describe physical
+systems. We obtain the equations of motion in a way coherent with our
+pre-existing techniques. We also obtain a ``shortcut'' to the equations
+of motion.
+
+But why should we care? Because almost every physical system we care
+about can be cast in the Hamiltonian mould. And regardless of choice of
+coordinates, they always have the same formulas for the equations of
+motion. For these reasons, the only freedom we have is in choice of
+Hamiltonian as a scalar function of the phase space. Once it is
+determined, everything we do is (in some sense) ``canonical'' or
+immediately obvious. This is presumably why Carl Jacobi referred to Hamiltonian
+mechanics as \emph{Canonical Mechanics}.
+
+\N{Geometry}
+There are \emph{geometric} reasons for coordinate independence, but this
+discussion would require knowing quite a bit of differential geometry.
+We can encode the Poisson bracket with one slot ``free'', the second
+slot being the Hamiltonian, as a vector field on the configuration
+space. This can be transformed using musical isomorphisms into a
+differential form. The choice of differential form is determined by the
+topology of the phase space (thanks to cohomology), which means we have
+only certain specific choices.
+
+There is much beauty to be admired here, and it is further studied in
+the field of \emph{symplectic geometry}.
+
+\N{Quantum Theory}
+It is impossible to do quantum mechanics without Hamiltonian mechanics.
+The basic idea is to consider some ``translator'' mapping
+\begin{equation}
+  \mathcal{Q}\colon\begin{pmatrix}\mbox{Classical}\\
+  \mbox{Mechanics}
+  \end{pmatrix}\to\begin{pmatrix}\mbox{Quantum}\\
+  \mbox{Mechanics}
+  \end{pmatrix}
+\end{equation}
+such that the Poisson bracket becomes a commutator:
+\begin{equation}
+\mathcal{Q}(\{A,B\}) = [\mathcal{Q}(A), \mathcal{Q}(B)]/(\I\hbar).
+\end{equation}
+Usually use a ``hat'' instead of $\mathcal{Q}(-)$, and a particularly
+convenient choice is that
+\begin{equation}
+\mathcal{Q}(q^{j}) = q^{j}
+\end{equation}
+and
+\begin{equation}
+\mathcal{Q}(p_{j}) = \I\hbar\frac{\partial}{\partial q^{j}}.
+\end{equation}
+This works with the demand the Poisson bracket becomes a commutator.
+There are other possible choices, this coincides with the Schrodinger picture.
+
+It turns out, well, it's impossible for such a mapping to exist
+unambiguously (this is the van Hove--Groenewald ``no go'' theorem). But
+you can't appreciate this without knowing Hamiltonian mechanics!
+See Mark Gotay's ``Obstructions to Quantization'', \arXiv[math-ph]{9809011},
+for further details.
+
+
+\begin{exercise}
+Prove, in one dimension, we have:
+\begin{equation}
+q^{2}p^{2} = \frac{1}{9}\{q^{3},p^{3}\} = \frac{1}{3}\{q^{2}p,qp^{2}\}.
+\end{equation}
+\end{exercise}
+
+\begin{exercise}
+Show
+\begin{equation}
+\mathcal{Q}\left(\frac{1}{9}\{q^{3},p^{3}\}\right)
+\neq \mathcal{Q}\left(\frac{1}{3}\{q^{2}p,qp^{2}\}\right).
+\end{equation}
+In particular, there is ambiguity when computing $\mathcal{Q}(q^{2}p^{2})$.
+\end{exercise}
+
+
+\subsection{Gauge Theory Briefly}
+
+\M
+The basic idea is when we have a singular Jacobian matrix
+\begin{equation}
+\det(\partial p_{k}/\partial v^{j})=0,
+\end{equation}
+we have some redundancy among the momenta. If
+\begin{equation}
+\mathrm{rank}(\partial p_{k}/\partial v^{j})=M,
+\end{equation}
+then (if we have $N$ momenta coordinates in the phase space) we need $N-M$ additional conditions called \define{Primary Constraints}.
+Geometrically, what's going on is each value of a velocity $v^{j}$
+corresponding to a ``redundant'' momentum --- this is transformed to the
+entire dimension of its conjugate momenta $p_{j}$, since its
+underspecified. We fix this freedom using Lagrange multipliers.
+These define a surface in the phase space called the \define{Constraint Surface}.
+
+We denote the primary constraints by $\phi_{k}(\vec{q},\vec{p})$.
+
+\M
+Basically, the idea is we do physics on the constraint surface, and fix
+coordinates on the constraint surface using Lagrange multipliers. The
+constraints need to satisfy some consistency conditions (intuitively
+they impose the condition they are constants of motion). This is
+precisely what happens mathematically with gauge theory: not all the
+constraints are necessary (some are redundant), which injects some
+arbitrary linear combination of them. This arbitrariness needs to be
+fixed using gauge conditions, and so on.
+
+\section{Coordinates}
+
+\M
+We take advantage of coordinate independence to choose some exotic
+coordinates. We refer to changes of coordinates
+\begin{equation}
+(\vec{q}, \vec{p},t)\to(\vec{Q},\vec{P},t)
+\end{equation}
+as \define{Canonical transformations} provided they preserve the
+equations of motion. Undergraduates are typically tasked with questions
+along the lines of ``Given $\vec{q}\to\vec{Q}$, determine the new
+momenta and Hamiltonian.''
+
+\N{Action--Angle Coordinates}
+For example, we can write the action as:
+\begin{equation}
+S = \int p_{j}\,\D q^{j} - \int H\,\D t.
+\end{equation}
+We can pick new coordinates which resemble actions:
+\begin{equation}
+J_{j} := \int p_{j}\,\D q^{j}.
+\end{equation}
+Implicitly, the path of integration takes place along contours of
+constant energy $E=E(q^{k}, p_{k})$.
+We interpret $J_{j}$ as ``momenta''. Its associated positions are called
+\define{Angles} denoted $\theta_{j}$ (hence the name ``Action--Angle coordinates'').
+
+If we can transform the Hamiltonian to be
+\begin{equation}
+H(\vec{q},\vec{p}) = K(\vec{J}),
+\end{equation}
+then we find
+\begin{equation}
+\dot{J}_{k} = -\frac{\partial K}{\partial\theta_{k}} = 0.
+\end{equation}
+Hence the action-coordinates are constants of motion. This is possible
+if and only if the system is integrable.
+
+\begin{exercise}
+  For one-dimensional simple Harmonic oscillator, we have
+  \begin{equation}
+H = \frac{1}{2m}p^{2} + \omega^{2}q^{2}.
+  \end{equation}
+(The superscripts are powers, not indices.) Determine the action--angle
+  coordinates for this system.
+\end{exercise}
+
+\begin{remark}[Importance: ``Old'' Quantum Theory]
+Historically, quantum mechanics began by quantizing the action
+coordinates, so
+\begin{equation}
+J_{k} = 2\pi n_{k}\hbar
+\end{equation}
+for some $n_{k}\in\ZZ$. This is known as the Bohr--Sommerfeld condition.
+\end{remark}
