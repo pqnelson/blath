@@ -4,6 +4,14 @@
 \date{August 22, 2022}
 \maketitle
 
+TODO: add diagrams for the worked examples.
+
+TODO: finish the worked example of the system of two point-masses
+connected by springs.
+
+TODO: add example working out the simple pendulum in Lagrangian
+mechanics \emph{before} working out the elastic pendulum.
+
 \section{Deriving Newton's Laws of Motion}
 \M
 We usually set up the equations of motion directly using Newton's second
@@ -156,6 +164,267 @@ approach.
 We can also generalize from one point-particle to fields, like the
 electromagnetic field or gravitation or nuclear forces. This is done in
 graduate school.
+
+\section{Worked Examples}
+
+\subsection{Simple Harmonic Oscillator}
+
+\N{Problem Statement}
+Consider a simple harmonic oscillator, a massless spring attaching a
+point-mass (of mass $m$) to the wall. The spring has spring constant $k$.
+This is a one-dimensional problem. Write down the Lagrangian and derive
+the equations of motion.
+
+\N{Identify}
+We are looking for the Lagrangian, then we will use the Euler--Lagrange
+equations to derive the equations of motion. We will need to recall
+Hooke's law for simple harmonic motion.
+
+\N{Set Up}
+We are given the mass $m$ and spring constant $k$. We need to pick some
+coordinates, and this is always the most subtle part. The trick is to
+choose coordinates such that the relaxed equilibrium position of the
+point-mass will be at $x=0$. This trick permits us to write the
+potential energy as
+\begin{equation}
+U(x) = \frac{1}{2}m\omega^{2}x^{2}
+\end{equation}
+where
+\begin{equation}
+\omega = \sqrt{k/m}
+\end{equation}
+is the angular velocity of oscillation.
+
+\N{Execute}
+We can now write down the Lagrangian, since this is a one-dimensional
+problem and there's really only one possible coordinate system (upto
+choice of origin and rescaling). The Lagrangian would be
+\begin{equation}
+L(q,v) = \frac{1}{2}mv^{2} - \frac{1}{2}m\omega^{2}q^{2}.
+\end{equation}
+Now, recall the Euler--Lagrange equations
+\begin{equation}
+\frac{\D}{\D t}\frac{\partial L}{\partial v} - \frac{\partial L}{\partial q} = 0.
+\end{equation}
+When we plug in our Lagrangian, we have
+\begin{subequations}
+\begin{align}
+\frac{\partial L}{\partial v} &= mv\\
+\frac{\partial L}{\partial q} &= -m\omega^{2}q\\
+\frac{\D}{\D t}\frac{\partial L}{\partial v} - \frac{\partial L}{\partial q} 
+&=\frac{\D}{\D t}(mv) - (-m\omega^{2}q) = 0.
+\end{align}
+\end{subequations}
+Thus we obtain the equations of motion:
+\begin{equation}\label{006-lagrangian:eom:spring}
+\frac{\D}{\D t}(mv) = -m\omega^{2}q.
+\end{equation}
+
+\N{Evaluate}
+We recall the equations of motion we learn in our first physics course
+should be
+\begin{equation}
+m\ddot{x}(t) = -kx(t).
+\end{equation}
+But ours is slightly different. What's the deal? Well, since mass is
+constant, we can rewrite Eq~\eqref{006-lagrangian:eom:spring} to
+\begin{equation}
+m\frac{\D}{\D t}v = - m\omega^{2}q.
+\end{equation}
+Now we can substitute in the definition of $\omega=\sqrt{k/m}$, which
+simplifies the right-hand side to:
+\begin{equation}
+\begin{split}
+m\frac{\D}{\D t}v &= - m\frac{k}{m}q\\
+&= -kq.
+\end{split}
+\end{equation}
+Thus we recover the familiar solution we learned as undergraduates (or
+in High School, or wherever).
+
+\begin{remark}
+This may not be terribly exciting to the reader. After all, we just
+recovered what we already knew! What about some exotic potential? Well,
+physicists will routinely take an arbitrary (smooth-ish) potential
+$U(x)$ and find its critical points $x_{\text{cr}}$, i.e., such that
+\begin{equation}
+U'(x_{\text{cr}})=0.
+\end{equation}
+Then Taylor expanding to second order about this critical point, we get
+\begin{equation}
+U(x_{\text{cr}}+h)\approx U(x_{\text{cr}})
++ \frac{1}{2}U''(x_{\text{cr}})\cdot h^{2}.
+\end{equation}
+If we add an arbitrary constant to the Lagrangian, it won't change the
+equations of motion. And that second term \emph{coincides} with a
+massless spring with $\omega^{2} = U''(x_{\text{cr}})$. Consequently, we
+can approximate \emph{any arbitrary} (twice differentiable) potential as
+a simple harmonic oscillator about its critical points. And physicists
+do this routinely, everywhere, in physics.
+
+For sufficiently nice potentials, we can iteratively improve our
+approximation, which constitutes the subject of \emph{perturbation theory}.
+This is no longer taught to undergraduates, because they are taught to
+use the computer to numerically solve the equations of
+motion. Personally, I have mixed feelings about this. One of the first
+lessons that should be taught to anyone learning numerical analysis is
+to distrust the computer: it will always give an answer, but there is no
+guarantee it will give the \emph{correct} answer. Perturbation theory
+permits us to verify the solution the computer produces is ``in the
+right ballpark''.
+\end{remark}
+
+\subsection{Elastic Pendulum}
+
+\N{Problem Statement}
+Consider a pendulum, which normally consists of a thin massless rod and
+a point-mass ``bob''. But suppose we replace the thin massless rod with
+a massless spring of spring constant $k$. Then:
+\begin{enumerate}
+\item Write down the Lagrangian.
+\item Find the equations of motion.
+\end{enumerate}
+
+\N{Identify and Set up}
+Our target variable is the Lagrangian, we will need to recall the
+physics of the pendulum and massless spring.
+
+We choose coordinates such that the rest equilibrium length of the
+spring is $\ell$ and deviation from it is $x(t)$, then the radial
+position of the bob is:
+\begin{equation}
+r(t) = \ell + x(t).
+\end{equation}
+The other coordinate describing the position of the bob is the angular
+coordinate $\theta(t)$.
+
+We now seek the potential energies experienced by the bob.
+The spring will experience a potential energy due to Hooke's law along
+the radial dimension: 
+\begin{equation}
+U_{\text{spring}} = \frac{1}{2}kx(t)^{2}.
+\end{equation}
+The familiar oscillator behaviour due to the pendulum \emph{being a pendulum}
+is described using the familiar potential energy:
+\begin{equation}
+U_{\text{pendulum}} = -gmr(t)\cos(\theta(t)).
+\end{equation}
+Together these form the potential energy for the system
+$U = U_{\text{spring}} + U_{\text{pendulum}}$.
+
+Now we seek the kinetic energy, as the last ingredient for a
+Lagrangian. Recall, with pendulums, we work in polar coordinates.
+The kinetic energy for polar coordinates is then
+\begin{equation}
+K = \frac{1}{2}m(\dot{x}^{2} + r(t)^{2}\dot{\theta}^{2}).
+\end{equation}
+(\textsc{Caution:} we abuse notation writing $\dot{x}$ instead of
+$v_{x}$ and $\dot{\theta}$ instead of $v_{\theta}$; the dotted
+quantities should \emph{not yet} be interpreted as time derivatives, but
+as variables.)
+This may be taken on faith, or recalling the line element for polar
+coordinates is
+\begin{equation}
+\D\vec{r} = \D r + r\D\theta,
+\end{equation}
+and then dividing both sides by $\D t$, replacing $r\mapsto r(t)$, and
+finding $(\D\vec{r}/\D t)\cdot(\D\vec{r}/\D t)$ recovers our previous
+assertion.
+
+\N{Execute}
+We find the Lagrangian quite readily now as:
+\begin{subequations}
+\begin{align}
+L &= K - U_{\text{pendulum}} - U_{\text{spring}}\\
+&= \frac{1}{2}m(\dot{x}^{2} + r(t)^{2}\dot{\theta}^{2})
+-\left(-gmr(t)\cos(\theta(t))\right) - \left(\frac{1}{2}kx(t)^{2}\right).
+\end{align}
+\end{subequations}
+We end up with two equations of motion, one for the radial displacement
+from equilibrium
+\begin{equation}
+\frac{\D}{\D t}\frac{\partial L}{\partial v_{x}} - \frac{\partial
+L}{\partial x} = 0.
+\end{equation}
+The other from the angular coordinate
+\begin{equation}
+\frac{\D}{\D t}\frac{\partial L}{\partial v_{\theta}} - \frac{\partial
+L}{\partial\theta} = 0.
+\end{equation}
+The reader can work out the equations of motion as
+\begin{subequations}
+\begin{equation}
+\frac{\D}{\D t}(m\dot{x}) = kx - gm\cos(\theta(t)) - m(\ell + x(t))\dot{\theta}(t)^{2}
+\end{equation}
+and
+\begin{equation}
+\frac{\D}{\D t}\left(m (\ell + x)^{2}\frac{\D\theta(t)}{\D t}\right)
+=gm(\ell + x(t))\sin(\theta(t)).
+\end{equation}
+\end{subequations}
+This is a horribly nonlinear system of differential equations, and I
+will not solve it.
+
+\N{Evaluate}
+When we ``turn off'' the spring, setting $k=0$, then we
+recover the familiar pendulum. Indeed, the right-hand side of the
+equations of motion for $x(t)$ amounts to the equations of motion for
+$\theta(t)$ and this implies $x(t)$ is constant. That's good! Similarly, 
+if we ``turn off'' gravity, setting $g=0$, we recover the simple
+harmonic oscillator in $x$. That's very good! We're recoving familiar
+physics from elementary physics.
+
+Also observe, deriving the equations of motion using the Lagrangian
+automatically caught several forces and pseudoforces which we could
+easily have forgotten. But writing down the Lagrangian amounted to
+writing down familiar potential energies with some minor changes.
+
+\begin{exercise}
+Consider a pendulum with bob being a point-mass $m_{1}$ connected by a
+thin massless rod of length $\ell_{1}$ to the ceiling. Suppose we
+connect another pendulum to the end of the bob, i.e., attach a thin
+massless rod of length $\ell_{2}$ to the bob, and then attach to the
+other end a point-mass $m_{2}$.
+\begin{enumerate}
+\item Write down the Lagrangian for this system.
+\item Derive the equations of motion for this system.
+\end{enumerate}
+\end{exercise}
+
+\subsection{Coupled System of Springs}
+
+\N{Problem Statement}
+We have 2 point masses $m_{1}$ and $m_{2}$. As before, the first
+point-mass $m_{1}$ is connected to the wall by a massless spring of
+constant $k_{1}$. The second point-mass $m_{2}$ is connected to the
+first $m_{1}$ by a massless spring of constant $k_{2}$. Find:
+\begin{enumerate}
+\item The Lagrangian for this system.
+\item The equations of motion for both point-masses.
+\end{enumerate}
+
+\begin{exercise}
+Suppose now we have $n$ point masses $m_{1}$, \dots, $m_{n}$ such that
+$m_{1}$ is connected by a spring to the wall [with spring constant
+$k_{1}$] and separately another spring [with constant $k_{2}$] connects
+it to mass $m_{2}$; we have $m_{2}$ also connected by a spring [of
+constant $k_{3}$] to mass $m_{3}$; and so on, until spring [of constant $k_{n}$]
+connects point mass $m_{n-1}$ to point mass $m_{n}$. This is a
+one-dimensional system. Assume all springs are massless. Then:
+\begin{enumerate}
+\item Write down the Lagrangian for this behemoth.
+\item Write down the equations of motion for this system.
+\end{enumerate}
+\end{exercise}
+
+\begin{remark}
+This may seem like an exercise in futility, but it corresponds to an
+actual physical system of interest. If we take the $n\to\infty$
+continuum limit, we actually obtain a scalar field (like temperature).
+After all, we routinely model solids in this manner (the point-masses
+intuitively correspond to molecules or atoms, the springs correspond to
+covalent or ionic bonds).
+\end{remark}
 
 \section{Derivation of Euler-Lagrange Equations}
 
