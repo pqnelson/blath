@@ -77,7 +77,15 @@ phase space.
 
 \N{Step two: change coordinates}
 We then change coordinates from $(\vec{q},\vec{v})$ to
-$(\vec{q},\vec{p})$ using position and momenta. Usually this is
+$(\vec{q},\vec{p})$ using position and momenta.
+At the end of this step, we should have obtained the velocities as a
+function of positions and momenta
+\begin{equation}
+v^{j} := v^{j}(\vec{q},\vec{p}).
+\end{equation}
+
+\begin{remark}
+Usually this is
 possible. We check by taking the determinant of the Jacobian matrix
 \begin{equation}
 \det(\partial p_{i}(\vec{q},\vec{v})/\partial v^{j})\neq0.
@@ -90,15 +98,10 @@ being these constraints are used as coordinates to describe the rest of
 the phase space. The curious reader may consult Henneaux and
 Teitelboim's \emph{Quantization of Gauge Systems} (the first chapter
 alone suffices).
-
-But at the end of this step, we should have obtained the velocities as a
-function of positions and momenta
-\begin{equation}
-v^{j} := v^{j}(\vec{q},\vec{p}).
-\end{equation}
+\end{remark}
 
 \N{Step three: construct the Hamiltonian}
-We may then construct the Hamiltonian using the Legendre transform:
+We may then construct the Hamiltonian using the \define{Legendre transform}:
 \begin{equation}\label{eq:hamiltonian-def}
 H(\vec{q},\vec{p}) = \left(\sum^{n}_{j=1}p_{j}v^{j}(\vec{q},\vec{p})\right) - L(\vec{q},\vec{v}(\vec{q},\vec{p})).
 \end{equation}
@@ -109,10 +112,45 @@ which case
 H(\vec{q},\vec{p},t) = \left(\sum^{n}_{j=1}p_{j}v^{j}(\vec{q},\vec{p})\right) - L(\vec{q},\vec{v}(\vec{q},\vec{p}),t).
 \end{equation}
 
+\begin{remark}[On the Legendre Transform]
+The Legendre transform sounds exotic, but it's just a way to transform
+from a convex function to a concave function (and
+vice-versa). Specifically, for physics (where we have a particular
+function of interest, like the Lagrangian), when we have a set of
+coordinates $(q,v)$ and we want to change to a different set of
+coordinates $(q,p)$ where $v$ and $p$ are conjugate variables, then we
+use the Legendre transform to translate our function of interest. It is
+always of the form
+\begin{equation}
+\begin{pmatrix}\mbox{new}\\
+\mbox{function}
+\end{pmatrix}
+=\begin{pmatrix}
+\mbox{variable}
+\end{pmatrix}\begin{pmatrix}
+\mbox{conjugate}\\
+\mbox{variable}
+\end{pmatrix}
+-
+\begin{pmatrix}
+\mbox{original}\\
+\mbox{function}
+\end{pmatrix}.
+\end{equation}
+If the reader continues to study thermodynamics, the Legendre transform
+returns in that setting as well.
+\end{remark}
+
 \begin{exercise}
 Prove, if $L=K-U$ the Lagrangian is just the difference between the
 kinetic energy $K$ and potential energy $U$, then $H=K+U$ the
 Hamiltonian is the total energy.
+\end{exercise}
+
+\begin{exercise}
+Prove this process is invertible, namely: if we begin with $H = K(q,p) + U(q,p)$,
+then change coordinates to the velocity $p=p(q,v)$, then
+$L = 2K(q,p(q,v)) - H(q,p(q,v))$ is the original Lagrangian.
 \end{exercise}
 
 \N{Deriving the equations of motion}
