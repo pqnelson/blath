@@ -1,0 +1,206 @@
+We can axiomatically characterize cosine and sine using the following
+properties:
+\begin{enumerate}
+\item Angle subtraction for cosine: $\cos(x-y) = \cos(x)\cos(y) + \sin(x)\sin(y)$ for all $x\in\RR$, $y\in\RR$
+\item $\sin(\pi/2)=1$
+\item for any $x\in[0,\pi/2]$, $\sin(x)\geq0$.
+\end{enumerate}
+In fact, we have a theorem.
+
+\begin{theorem}
+Let $p\in\RR$ be a positive real number (fixed). Let $C\colon\RR\to\RR$
+and $S\colon\RR\to\RR$ be continuous functions such that
+\begin{enumerate}
+\item $C(x-y) = C(x)C(y) + S(x)S(y)$ for all $x$, $y\in\RR$
+\item $S(\pi/2)=1$
+\item for any $x\in[0,\pi/2]$, $S(x)\geq0$.
+\end{enumerate}
+Then $C$ and $S$ exist and are unique.
+\end{theorem}
+
+Here $p$ generalizes the constant $\pi/2$. If we let $p\in\RR$ be fixed
+but arbitrary, nothing changes: for negative $p$, the sign will change
+for $S(x)$; for $p=0$, we will find $C(x)=S(x)=0$. So the restriction
+that $p>0$ is inconsequential book-keeping.
+
+Consequently, we will abbreviate $C(x)=\cos(x)$ and $S(x)=\sin(x)$ in
+the following results.
+
+\begin{proposition}
+$C(0) = 1$
+\end{proposition}
+\begin{proof}
+(a) We have $C(0) = C(\pi/2 - \pi/2) = C(\pi/2)^{2} + S(\pi/2)^{2}$
+then using $S(\pi/2)=1$ we have $C(0) = C(\pi/2)^{2} + 1\geq 1$.
+
+(b) We claim $C(0)\leq 1$, since $C(0) = C(0 - 0) = C(0)^{2} + S(0)^{2}\geq C(0)$.
+Divide both sides by $C(0)$ gives $1\geq C(0)$.
+
+(c) We have $1\geq C(0)\geq 1$ give the result.
+\end{proof}
+
+\begin{proposition}
+$C(-x) = C(x)$.
+\end{proposition}
+\begin{proof}
+Using $C(-x) = C(0 - x) = C(0)C(x) + S(0)S(x) = C(x) + S(0)S(x)$.
+Uh\dots
+\end{proof}
+
+\begin{proposition}
+$C(x)^{2} + S(x)^{2} = 1$.
+\end{proposition}
+\begin{proof}
+Using $C(x-x) = C(x)^{2} + S(x)^{2}$ and $C(x-x)=C(0)=1$ give the result.
+\end{proof}
+
+\begin{proposition}\label{prop:sine-leq-one-when-x-leq-pi-over-two}
+For any $x\in[0,\pi/2]$ we have $0\leq S(x)\leq 1$.
+\end{proposition}
+
+\begin{proof}
+Let $x\in[0,\pi/2]$ be arbitrary. We know $S(x)\geq0$, we just need to
+prove $S(x)\leq1$.
+\end{proof}
+
+\begin{proposition}
+  (a) $S(0) = 0$
+
+  (b) $C(\pi/2) = 0$.
+\end{proposition}
+\begin{proof}
+(b) We find $C(\pi/2 - \pi/2) = C(\pi/2)^{2} + S(\pi/2)^{2}$. We know
+$C(0) = 1$ and $S(\pi/2) = 1$, which gives us $1 = C(\pi/2)^{2} + 1$,
+hence $C(\pi/2)^{2} = 0$ and $C(\pi/2) = 0$.
+
+(a)
+Consider $C(\pi/2 - 0) = C(\pi/2)C(0) + S(\pi/2)S(0)$. We know $C(0)=1$,
+and $S(\pi/2) = 1$, so we obtain $C(\pi/2 - 0) = C(\pi/2) + S(0)$.
+Subtracting $C(\pi/2)$ from both sides gives $S(0)=0$.
+\end{proof}
+
+\begin{proposition}\label{prop:cos-pi-over-2-and-sine}
+$C(\pi/2 - x) = S(x)$.
+\end{proposition}
+\begin{proof}
+We have $C(\pi/2 - x) = C(\pi/2)C(x) + S(\pi/2) S(x)$
+then using $S(\pi/2)=1$ and $C(\pi/2) = 0$ gives us
+$C(\pi/2 - x) = 0 + S(x)$.
+\end{proof}
+
+\begin{proposition}\label{prop:sin-pi-over-2-and-cosine}
+$S(\pi/2 - x) = C(x)$.
+\end{proposition}
+\begin{proof}
+Set $y = \pi/2 - x$, then $C(\pi/2 - y) = S(y)$ and $C(\pi/2 - y) = C(x)$,
+which gives the result.
+\end{proof}
+
+\begin{proposition}
+$S(\pi/4) = C(\pi/4)$.
+\end{proposition}
+\begin{proof}
+  Since $C(\pi/2 - x) = S(x)$ by Proposition~\ref{prop:cos-pi-over-2-and-sine}, choose $x=\pi/4$ and we obtain the result.
+\end{proof}
+
+\begin{proposition}
+For all $x\in[0,\pi/2]$, we have $0\leq C(x)\leq 1$.
+\end{proposition}
+\begin{proof}
+  Let $x\in[0,\pi/2]$ be arbitrary, set $y=\pi/2-x$. Then $y\in[0,\pi/2]$.
+  We claim $0\leq\sin(y)\leq 1$, due to Proposition~\ref{prop:sine-leq-one-when-x-leq-pi-over-two}.
+
+  But we know from Proposition~\ref{prop:sin-pi-over-2-and-cosine} that
+  $\cos(x)=\sin(y)$, which gives the result.
+\end{proof}
+
+\begin{proposition}
+$S(x + y) = S(x)C(y) + C(x)S(y)$.
+\end{proposition}
+\begin{proof}
+We have $S(x + y) = C((\pi/2 - x) - y) = C(\pi/2 - x)C(y) + S(\pi/2 - x)S(y)$.
+Using earlier results proves the claim.
+\end{proof}
+
+\begin{proposition}
+$S(2x) = 2S(x)C(x)$.
+\end{proposition}
+
+\begin{proof}
+  This follows immediately from the previous result, by choosing $x=y$.
+\end{proof}
+
+\begin{proposition}
+$S(\pi) = 0$.
+\end{proposition}
+
+\begin{proof}
+  Since $C(\pi/2)=0$, we find $S(\pi)=2S(\pi/2)C(\pi/2)=0$.
+\end{proof}
+
+\begin{proposition}
+$2(C(\pi/4))^{2} = 2(S(\pi/4))^{2} = 1$.
+\end{proposition}
+
+\begin{proposition}
+$C(\pi/4) = S(\pi/4) = \sqrt{2}/2$.
+\end{proposition}
+
+\begin{proposition}
+$S(-\pi/4) = -S(\pi/4) = -\sqrt{2}/2$.
+\end{proposition}
+
+\begin{proposition}
+$-S(\pi/2)=-1$.
+\end{proposition}
+
+\begin{proposition}
+$C(\pi)=-1$.
+\end{proposition}
+
+\begin{proposition}
+$S(-x) = -S(x)$.
+\end{proposition}
+\begin{proof}
+We have $S(-x) = C(\pi/2 - (-x)) = C(-\pi/2 - x)$.
+\end{proof}
+
+\begin{proposition}
+$C(x+y) = C(x)C(y) - S(x)S(y)$.
+\end{proposition}
+
+\begin{proposition}
+$C(2x) = C(x)^{2} - S(x)^{2} = 2C(x)^{2} - 1$.
+\end{proposition}
+
+\begin{proposition}
+$(C(x) + 1)/2 = (C(x/2))^{2}$.
+\end{proposition}
+
+\begin{proposition}
+$S(x-y) = S(x)C(y) - C(x)S(y)$.
+\end{proposition}
+
+\begin{proposition}
+$S(\pi/2 + x) = C(x)$.
+\end{proposition}
+
+\begin{proposition}
+$C(\pi/2 + x) = -S(x)$.
+\end{proposition}
+
+\begin{proposition}
+$S(\pi + x) = - S(x)$.
+\end{proposition}
+
+\begin{proposition}
+$C(\pi + x) = -C(x)$.
+\end{proposition}
+
+\begin{proposition}
+$S(2\pi + x) = S(x)$.
+\end{proposition}
+
+\begin{proposition}
+$C(2\pi + x) = C(x)$.
+\end{proposition}
