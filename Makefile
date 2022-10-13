@@ -4,7 +4,7 @@ FILE=blog
 
 
 
-all: from_dvi
+all: images pdf_latex
 
 from_dvi:
 	$(LATEX) $(FILE)
@@ -17,3 +17,6 @@ pdf_latex:
 
 html:
 	python3 ./latex2wp/latex2wp/main.py $(FILE).tex
+
+images:
+	cd img && mpost lagrangian-mechanics.mp

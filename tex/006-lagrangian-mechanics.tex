@@ -1,16 +1,8 @@
 \title{Summary of Lagrangian Mechanics}
-\author{Alex Nelson\footnote{Email: \texttt{pqnelson@gmail.com}\qquad
-  Updated: \today}}
+\author{Alex Nelson\thanks{Email: \texttt{pqnelson@gmail.com}
+\hfil\break\indent\;\, Updated: \today}}
 \date{August 22, 2022}
 \maketitle
-
-TODO: add diagrams for the worked examples.
-
-TODO: finish the worked example of the system of two point-masses
-connected by springs.
-
-TODO: add example working out the simple pendulum in Lagrangian
-mechanics \emph{before} working out the elastic pendulum.
 
 \section{Deriving Newton's Laws of Motion}
 \M
@@ -155,6 +147,41 @@ L = \left(\sum^{N_{\text{bodies}}}_{n=1}K(\vec{q}^{(n)},\vec{v}^{(n)})\right)
 where all the potential energy terms are ``swept under the rug'' of the
 single term $U$.
 
+\N{Generalized Coordinates and Forces}
+We let $q^{i}$ be the generalized coordinates for the bodies. A more
+literal and faithful way to write down Newton's second law would be to
+consider ``generalized forces'', defined as:
+\begin{equation}
+\mathcal{F}_{i} := \frac{\D}{\D t}\frac{\partial U}{\partial v^{i}}
+- \frac{\partial U}{\partial q^{i}}.
+\end{equation}
+Then we have the analogous quantities to $m\vec{a}$ given by
+\begin{equation}
+(m\vec{a})_{j} \sim \frac{\D}{\D t}\frac{\partial K}{\partial v^{j}} - 
+\frac{\partial K}{\partial q^{j}}.
+\end{equation}
+What's the point of the $\partial K/\partial q^{j}$ term? Let us
+consider a point-particle in 2-dimensions described by polar
+coordinates, then
+\begin{equation}
+K = \frac{1}{2}m\dot{r}^{2} + \frac{1}{2}mr^{2}\dot{\theta}^{2}.
+\end{equation}
+Using this, we find:
+\begin{subequations}
+\begin{align}
+\frac{\partial K}{\partial v^{r}} &= m\dot{r}\\
+\frac{\partial K}{\partial v^{\theta}} &= mr^{2}\dot{\theta}\\
+\frac{\partial K}{\partial r} &= mr\dot{\theta}^{2}\\
+\frac{\partial K}{\partial \theta} &= 0.
+\end{align}
+\end{subequations}
+Then the radial equations of motion looks like
+\begin{equation}
+\mathcal{F}_{r} = \frac{\D}{\D t}(m\dot{r}) - mr\dot{\theta}^{2}.
+\end{equation}
+The sharp-eyed reader will recognize $mr\dot{\theta}^{2}$ as centrifugal
+``force''.
+
 \N{Beyond Newton}
 We can use the Euler-Lagrange equations for situations where Newton's
 second Law no longer holds. For example, we can find the equations of
@@ -274,6 +301,80 @@ permits us to verify the solution the computer produces is ``in the
 right ballpark''.
 \end{remark}
 
+\subsection{Pendulum}
+
+\N{Problem Statement}
+Consider a pendulum, which normally consists of a thin massless rod and
+a point-mass ``bob''. Then:
+\begin{enumerate}
+\item Write down the Lagrangian.
+\item Find the equations of motion.
+\end{enumerate}
+
+\N{Identify}
+The target variables here are the Lagrangian (and its associated
+Euler-Lagrange equations). The relevant physical concept is a constant
+gravitational field.
+
+\N{Set up and Execute}
+We let $\ell$ be the length of the thin massless rod, $m$ be the mass of
+the bob. Since the massless rod's length doesn't change (it's rigid), it
+makes sense to use polar coordinates, so the radial coordinate for the
+position of the bob is just the constant $r(t)=\ell$.
+
+The potential energy from the constant gravitational field should be:
+\begin{equation}\label{eq:lagrangian:constant-g-potential-energy}
+U_{\text{grav}} = mgy.
+\end{equation}
+The basic situation may be doodled as follows (in the free body diagram):
+\begin{center}
+\includegraphics{img/lagrangian-mechanics.0}
+\end{center}
+The reader can verify the coordinates for the bob (using Cartesian
+coordinates with the connection of the rod to the ceiling as the Origin,
+the ceiling is the $x$-axis):
+\begin{equation}
+(x,y) = (\ell\sin(\theta),-\ell\cos(\theta)).
+\end{equation}
+The potential energy in Eq~\eqref{eq:lagrangian:constant-g-potential-energy}
+then becomes
+\begin{equation}
+U_{\text{grav}} = -mg\ell\cos(\theta).
+\end{equation}
+The Lagrangian
+\begin{equation}
+L = K - U_{\text{grav}}
+\end{equation}
+may be written explicitly using polar coordinates as doodled in the
+free-body diagram:
+\begin{equation}
+\boxed{L = \underbrace{\frac{1}{2}mv_{r}^{2} + \frac{1}{2}m\ell^{2}v_{\theta}^{2}}_{=K}
+-\underbrace{(-mg\ell\cos(\theta))}_{=U_{\text{grav}}}.}
+\end{equation}
+Now, we can plug this into the Euler-Lagrange equations. Since we
+stipulated the rod is rigid, the radial coordinate of the bob is fixed,
+so we only need the angular Euler-Lagrange equation
+\begin{equation}
+\frac{\D}{\D t}\frac{\partial L}{\partial v_{\theta}} - \frac{\partial L}{\partial\theta}=0.
+\end{equation}
+We find by direct computation:
+\begin{subequations}
+\begin{align}
+\frac{\partial L}{\partial v_{\theta}} &= m\ell^{2}v_{\theta}\\
+\frac{\partial L}{\partial\theta} &= mg\ell\sin(\theta).
+\end{align}
+\end{subequations}
+Hence the Euler-Lagrange equations are a single equation:
+\begin{equation}\label{lagrangian:simple-pendulum:eom}
+\boxed{\frac{\D}{\D t}(m\ell^{2}v_{\theta}) - mg\ell\sin(\theta) = 0}.
+\end{equation}
+
+\N{Evaluate:}
+Well, we recognize Eq~\eqref{lagrangian:simple-pendulum:eom}
+as the equations of motion for a simple pendulum. The small angle
+approximation $\sin(\theta)\approx\theta$ reproduced the simple harmonic
+oscillator behaviour.
+
 \subsection{Elastic Pendulum}
 
 \N{Problem Statement}
@@ -296,7 +397,12 @@ position of the bob is:
 r(t) = \ell + x(t).
 \end{equation}
 The other coordinate describing the position of the bob is the angular
-coordinate $\theta(t)$.
+coordinate $\theta(t)$. We can draw a doodle of the situation (the
+trajectory of the familiar pendulum in dashed line):
+
+\begin{center}
+\includegraphics{img/lagrangian-mechanics.2}
+\end{center}
 
 We now seek the potential energies experienced by the bob.
 The spring will experience a potential energy due to Hooke's law along
@@ -394,23 +500,134 @@ other end a point-mass $m_{2}$.
 \subsection{Coupled System of Springs}
 
 \N{Problem Statement}
-We have 2 point masses $m_{1}$ and $m_{2}$. As before, the first
-point-mass $m_{1}$ is connected to the wall by a massless spring of
-constant $k_{1}$. The second point-mass $m_{2}$ is connected to the
-first $m_{1}$ by a massless spring of constant $k_{2}$. Find:
+We have 2 point masses $m_{1}$ and $m_{2}$. We have two identical
+massless springs (of spring constant $k$ and rest length $\ell$), one
+connects $m_{1}$ to the wall, the second connects $m_{1}$ to $m_{2}$. Find:
 \begin{enumerate}
 \item The Lagrangian for this system.
 \item The equations of motion for both point-masses.
 \end{enumerate}
+For simplicity, assume this is a one-dimensional system, and neglect
+gravity (also neglect friction).
+
+\begin{center}
+\includegraphics{img/lagrangian-mechanics.3}
+\end{center}
+
+\N{Identify}
+We need Hooke's law, and care when considering the coordinates for each
+of the point-masses. The target variable is the Lagrangian for the
+system (which will just be the sum of the Lagrangians for each point-mass),
+and we will need the Euler-Lagrange equations.
+
+\N{Setup}
+Let $k$ be the spring constant, $\ell$ the relaxation length of the
+spring. Then the equilibrium position for the first point-mass $m_{1}$
+will be located a distance $\ell$ from the wall, and the second
+point-mass $m_{2}$ will be located a distance $\ell$ from $m_{1}$ and
+$2\ell$ from the wall.
+The coordinates are chosen to be deviation from
+equilibrium. Specifically, we have $q^{1}$ be the deviation from the
+equilibrium position relative to the wall:
+
+\begin{center}
+\includegraphics{img/lagrangian-mechanics.4}
+\end{center}
+
+Now we have two choices for the coordinate of the second point-mass:
+\begin{enumerate}
+\item The coordinate $q^{2}$ for the second mass could be chosen as the
+deviation from its equilibrium position relative to the first point-mass
+(i.e., from $(\ell+q^{1})+\ell$ since $x^{1}=\ell+q^{1}$ is the position
+of the first point-mass relative to the wall); or,
+\item Alternatively, we could choose $q^{2}$ as the deviation from
+$2\ell$ its position from the system-in-equilibrium.
+\end{enumerate}
+We will take the second choice, i.e., $q^{2}$ is the deviation of the
+second point-mass from $2\ell$ from the wall.
+
+Hooke's law has potential energy be
+\begin{equation}
+U_{\text{Hooke}} = \frac{1}{2}k\cdot(q)^{2}
+\end{equation}
+where $q$ is the deviation from equilibrium.
+
+\N{Execute} First we work out the potential energy terms.
+We recall the potential energy for Hooke's law applied to the first
+point-mass will be:
+\begin{subequations}
+\begin{equation}
+U_{1} = \frac{1}{2}k(q^{1})^{2}.
+\end{equation}
+The potential energy for Hooke's law applied to the second point-mass
+will be (thanks to our choice of coordinates for the second point-mass),
+\begin{equation}
+U_{2} = \frac{1}{2}k(q^{2}-q^{1})^{2}.
+\end{equation}
+Thus we have
+\begin{equation}
+U(q^{1},q^{2}) = \frac{1}{2}k(q^{1})^{2}+\frac{1}{2}k(q^{2}-q^{1})^{2}.
+\end{equation}
+\end{subequations}
+Since this is a one-dimensional system, we have kinetic energy be,
+\begin{equation}
+K = \frac{1}{2}m_{1}(v_{1})^{2} + \frac{1}{2}m_{2}(v_{2})^{2}
+\end{equation}
+where $v_{1}$ is the velocity of the first point-mass, $v_{2}$ the
+velocity of the second point-mass.
+
+Now, we write down the Lagrangian,
+\begin{equation}
+\boxed{L = \frac{1}{2}m_{1}(v_{1})^{2} + \frac{1}{2}m_{2}(v_{2})^{2}
+- \frac{1}{2}k(q^{1})^{2} - \frac{1}{2}k(q^{2}-q^{1})^{2}.}
+\end{equation}
+This is half the battle, we just need to plug this into the
+Euler-Lagrange equations.
+
+The Euler-Lagrange equation for the first point-mass is given by, first
+computing the terms,
+\begin{subequations}
+\begin{align}
+\frac{\partial L}{\partial q^{1}} &= k (-2q^{1}+q^{2})\\
+\frac{\partial L}{\partial v_{1}} &= m_{1}v_{1}.
+\end{align}
+\end{subequations}
+Hence,
+\begin{equation}\label{eq:lagrangian:eom-two-coupled-point-masses:eom-one}
+\boxed{\frac{\D}{\D t}(m_{1}v_{1}) = -kq^{1} + \frac{1}{2}kq^{2}.}
+\end{equation}
+The Euler-Lagrange equations for the second point-mass, we compute,
+\begin{subequations}
+\begin{align}
+\frac{\partial L}{\partial q^{2}} &= k (q^{1}-q^{2})\\
+\frac{\partial L}{\partial v_{2}} &= m_{2}v_{2}.
+\end{align}
+\end{subequations}
+Hence the Euler-Lagrange equations give us,
+\begin{equation}\label{eq:lagrangian:eom-two-coupled-point-masses:eom-two}
+\boxed{\frac{\D}{\D t}(m_{2}v_{2}) = k(q^{1} - q^{2}).}
+\end{equation}
+
+\N{Evaluate}
+We see, if we remove the second point-mass (effectively setting
+$q^{2}=0$), then we recover the simple harmonic oscillator
+in Eq~\eqref{eq:lagrangian:eom-two-coupled-point-masses:eom-one}
+becoming $m\dot{v}_{1} = -kq^{1}$. If we replace the spring coupling the
+first point-mass with the wall by a massless rigid rod, then the
+equation of motion in Eq~\eqref{eq:lagrangian:eom-two-coupled-point-masses:eom-two}
+becomes $m_{2}\dot{v}_{2} = -kq^{2}$ --- again, the simple harmonic
+oscillator. These both are good signs, because we recover what we know. 
 
 \begin{exercise}
 Suppose now we have $n$ point masses $m_{1}$, \dots, $m_{n}$ such that
 $m_{1}$ is connected by a spring to the wall [with spring constant
-$k_{1}$] and separately another spring [with constant $k_{2}$] connects
+$k$] and separately another spring [with identical spring constant $k$] connects
 it to mass $m_{2}$; we have $m_{2}$ also connected by a spring [of
-constant $k_{3}$] to mass $m_{3}$; and so on, until spring [of constant $k_{n}$]
-connects point mass $m_{n-1}$ to point mass $m_{n}$. This is a
-one-dimensional system. Assume all springs are massless. Then:
+constant $k$] to mass $m_{3}$; and so on, until spring [of constant $k$]
+connects point mass $m_{n-1}$ to point mass $m_{n}$. We assume all these
+massless springs are identical with identical spring constant $k$ and
+relaxation length $\ell$. This is a one-dimensional system. Assume all
+springs are massless. Neglect friction and gravity. Then:
 \begin{enumerate}
 \item Write down the Lagrangian for this behemoth.
 \item Write down the equations of motion for this system.
@@ -594,6 +811,25 @@ on'' the space of possible trajectories. We then have a ``stud detector''
 [the action functional] which tells us when a possible trajectory is
 physically realized. This is completely different than Newtonian
 physics, which works with free-body diagrams and force vectors directly.
+
+\N{Some subtleties}
+We should first note that, in physics, we typically work with all
+$C^{1}$ paths for classical mechanics. This is because we want to
+eventually get a trajectory $\gamma$ such that the generalized
+coordinates coincides the positions along the trajectory
+$q^{i}(t)=(\gamma(t))^{i}$, and generalized velocities are obtained by
+the first-derivative of the trajectory $v^{i}(t)=(\partial_{t}\gamma(t))^{i}$.
+But if we permit this, then we can treat the variation operator $\delta$
+as a kind of differential operator.
+
+This is subtle, because the collection of ``continuous nowhere
+differential paths'' are dense in $C(a,b)$. (The intuition should be,
+this is analogous to the relation of rational numbers $\mathbb{Q}$
+inside the set of real numbers $\mathbb{R}$.) So if we pick a path
+$\gamma\in C(a,b)$ at random, it is almost certainly continuous nowhere
+differentiable. There may be extrema of the action in $C(a,b)$ which are
+not in $C^{1}(a,b)$, and these paths play an important role in quantum
+mechanics. 
 
 \N{Best way to study Lagrangian Mechanics}
 In my humble opinion, the best way to study Lagrangian mechanics is by

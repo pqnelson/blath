@@ -1,6 +1,5 @@
 \title{Summary of Hamiltonian Mechanics}
-\author{Alex Nelson\footnote{Email: \texttt{pqnelson@gmail.com}\qquad
-  Updated: \today}}
+\author{Alex Nelson\footnote{Email: \texttt{pqnelson@gmail.com}\hfil\break\indent\;\,  Updated: \today}}
 \date{September 10, 2022}
 \maketitle
 
@@ -207,6 +206,8 @@ as functions of the other variables. This sadly cannot be avoided, and
 only becomes understandable after working with them for a long time.
 \end{remark}
 
+\subsection{Poisson Bracket}
+
 \N{Poisson Bracket}
 The other approach is less motivated but more elegant. We introduce a
 mathematical gadget called the \define{Poisson Bracket}. We define it as
@@ -328,6 +329,92 @@ H = \frac{1}{2m}p^{2} + \frac{g}{q}.
   \end{equation}
 Compute the Poisson bracket $\{-,H\}$ leaving the first slot free.
 \end{exercise}
+
+\N{Taylor Series}
+For any function $F(q^{1},\dots,p_{1},\dots)$ on the phase space (which,
+for simplicity, does not explicitly depend on time), let $\delta t$ be
+an infinitesimal time interval. Then
+\begin{equation}
+F(q^{1}(t+\delta t),\dots,p_{1}(t+\delta t),\dots)
+= F(q^{1}(t),\dots,p_{1}(t),\dots)
++ \{F(q^{1},\dots,p_{1},\dots),H\,\delta t\}.
+\end{equation}
+This is precisely the Taylor expansion to first-order. We can iterate
+this, and obtain the Taylor series expansion:
+\begin{equation}
+\begin{aligned}
+F(q^{1}(t+\Delta t),&\dots,p_{1}(t+\Delta t),\dots)\\
+=~&F(q^{1}(t),\dots,p_{1}(t),\dots)
++ \{F(q^{1},\dots,p_{1},\dots),H\,\Delta t\}\\
+&+ \frac{1}{2!}\{\{F(q^{1},\dots,p_{1},\dots),H\,\Delta t\},H\,\Delta t\}\\
+&+ \frac{1}{3!}\{\{\{F(q^{1},\dots,p_{1},\dots),H\,\Delta t\},H\,\Delta t\},H\,\Delta t\}+\dots
+\end{aligned}
+\end{equation}
+
+\M
+It is common to use the Poisson bracket along with a ``generating
+function'' $G$ such that, for some infinitesimal parameter
+$\varepsilon$, we compute the ``deformation'' or ``change'' in a given
+phase-space function $F$ as:
+\begin{equation}
+\delta F = \{F,\varepsilon G\}.
+\end{equation}
+This is the basic idea in gauge theory, where $F\to F+\delta F$ is a
+symmetry leaving the equations of motion invariant. This is the historic
+origins of Lie groups: Sophus Lie studied symmetry groups for
+differential equations along these lines. We may think of $\delta F$
+as a ``local'' or ``infinitesimal symmetry'', and relate them to
+``finite symmetries'' obtained by a Taylor expansion. There is a lot of
+beautiful mathematics here, but it lies beyond the scope of my notes.
+
+Some simple examples (if $\delta q^{i}$ and $\delta p_{i}$ are
+infinitesimal quantities):
+\begin{equation}
+\frac{\partial F}{\partial p_{i}}\delta p_{i}
+= \{F,-q^{i}\,\delta p_{i}\},
+\end{equation}
+and similarly,
+\begin{equation}
+\frac{\partial F}{\partial q^{i}}\delta q^{i}
+= \{F,p_{i}\,\delta q^{i}\}.
+\end{equation}
+
+\N{Vector Field on Phase Space}
+In differential geometry, we pretend partial derivatives are unit
+vectors.\footnote{This sounds insane, but it makes sense, I promise.}
+From this perspective, the quantity $\{-,H\}$ is a vector field on the
+phase-space describing the time-evolution of the physical
+system. Readers who can recall the slope-field from differential
+equations will happily recognize this concept: the vector field given by
+$\{-,H\}$ is precisely the slope-field associated with the physical
+trajectories of different initial conditions.
+
+\N{Punchline: Poisson Bracket is important}
+Hamiltonian mechanics has a unique gadget, the Poisson
+bracket. Lagrangian mechanics lacks this thing. And the Poisson bracket
+encodes a lot of information, despite its simplicity. We may
+meaningfully talk about how functions on the phase space change over
+time using the Poisson bracket, and we may generalize this strategy to
+introduce a way to study symmetries using the Poisson bracket.
+If we wish to summarize a system in Hamiltonian mechanics, then it
+suffices to work in canonical coordinates and produce the explicit
+equations of motion for them (i.e., the right-hand sides of the following):
+\begin{subequations}
+\begin{align}
+\frac{\D}{\D t}q^{i} &= \{q^{i}, H\}\\
+\frac{\D}{\D t}p_{i} &= \{p_{i}, H\}.
+\end{align}
+\end{subequations}
+Once the Poisson bracket of the generalized positions $\{q^{i},H\}$ and
+generalized momenta $\{p_{i},H\}$ are given (as functions of generalized
+positions and momenta), then we have sufficient data to extract \emph{all}(!)
+physically meaningful information about the system.
+
+Since we can extract all meaningful physical information from the
+Poisson bracket, it becomes hugely important to ``preserve'' the Poisson
+bracket upon changing coordinates or changing variables. This is what
+you will learn in graduate school, and they employ the scary-sounding
+name ``Symplectomorphisms''.
 
 \subsection{Sketches of Variational Arguments}
 
